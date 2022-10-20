@@ -10,10 +10,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import tmpImg from "../../../../common/assets/tmp.jpg";
-import { feed } from "../../../../common/data/seed";
+import { feed, guard_coordinates } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo } from "react";
 import FeedProfileCard from "./FeedProfileCard";
+import { IoMdAddCircle } from "react-icons/Io";
+import { MdCancel } from "react-icons/md";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -26,6 +28,8 @@ interface IProps {
 const Feed: React.FC<IProps> = ({ isLoaded }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentView, setCurrentView] = useState<string>(feed[0]?.name);
+  const [newEvent, setNewEvent] = useState<boolean>();
+
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 43.45, lng: -80.49 }),
     []
@@ -90,28 +94,74 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
       <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
         <Flex flexDir={"row"} flexWrap={"wrap"} gap={3} py={5}>
           {isLoaded && (
-            <GoogleMap
-              mapContainerStyle={containerStyle}
-              center={center}
-              options={options}
-              zoom={10}
-              onClick={(data) =>
-                setMarkerList(
-                  markerList.concat(JSON.parse(JSON.stringify(data.latLng)))
-                )
-              }
-            >
-              {markerList.map((x, i) => (
-                <MarkerF
-                  position={x}
-                  onClick={onOpen}
-                  // icon={
-                  //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-                  // }
-                />
-              ))}
-            </GoogleMap>
+            <>
+              <GoogleMap
+                mapContainerStyle={containerStyle}
+                center={center}
+                options={options}
+                zoom={10}
+                onClick={(data) => {
+                  if (newEvent) {
+                    setMarkerList(
+                      markerList.concat(JSON.parse(JSON.stringify(data.latLng)))
+                    );
+                  }
+                }}
+              >
+                {guard_coordinates.map((x, i) => (
+                  <MarkerF
+                    position={x}
+                    onClick={onOpen}
+                    // icon={
+                    //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+                    // }
+                  />
+                ))}
+                {markerList.map((x, i) => (
+                  <MarkerF
+                    position={x}
+                    onClick={onOpen}
+                    // icon={
+                    //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
+                    // }
+                  />
+                ))}
+              </GoogleMap>
+            </>
           )}
+          {
+            <Flex width={"100%"}>
+              <Flex
+                px={4}
+                py={1}
+                my={1}
+                alignItems={"center"}
+                justifyContent={"center"}
+                gap={1}
+                rounded={"20px"}
+                bgGradient={
+                  "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
+                }
+                _hover={{
+                  cursor: "pointer",
+                }}
+                onClick={() => setNewEvent(!newEvent)}
+              >
+                {!newEvent && (
+                  <>
+                    <Text fontSize={"12px"}>{"Add event"}</Text>
+                    <IoMdAddCircle />
+                  </>
+                )}
+                {newEvent && (
+                  <>
+                    <Text fontSize={"12px"}>{"Cancel"}</Text>
+                    <MdCancel />
+                  </>
+                )}
+              </Flex>
+            </Flex>
+          }
           {[...Array(3)].map((x, i) => (
             <Box onClick={onOpen}>
               <FeedProfileCard />
