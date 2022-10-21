@@ -18,14 +18,13 @@ const EventCard: React.FC<IProps> = ({ onOpen }) => {
       }}
       onClick={onOpen}
     >
-      <Image
+      <Box
         rounded={"md"}
         width={"220px"}
+        bgColor={"#ffa463"}
         height={"100px"}
-        objectFit={"cover"}
-        src={tmpImg}
-        loading={"lazy"}
       />
+
       <Box
         position={"relative"}
         zIndex={0}

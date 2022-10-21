@@ -16,7 +16,7 @@ const EventSection: React.FC = () => {
         px={5}
         py={5}
         flexDir={"column"}
-        gap={5}
+        gap={4}
         borderWidth={1}
         rounded={10}
       >

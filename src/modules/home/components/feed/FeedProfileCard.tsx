@@ -14,14 +14,11 @@ const FeedProfileCard: React.FC = () => {
         cursor: "pointer",
       }}
     >
-      <Image
-        zIndex={1}
+      <Box
         rounded={"md"}
         width={"220px"}
-        height={"150px"}
-        objectFit={"cover"}
-        src={tmpImg}
-        loading={"lazy"}
+        bgColor={"#ffa463"}
+        height={"130px"}
       />
       <Box
         position={"relative"}

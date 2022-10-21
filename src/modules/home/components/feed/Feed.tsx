@@ -6,7 +6,6 @@ import {
   Tbody,
   Td,
   Text,
-  Tfoot,
   Th,
   Thead,
   Tr,
@@ -24,6 +23,7 @@ import FeedProfileCard from "./FeedProfileCard";
 import { IoMdAddCircle } from "react-icons/Io";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
+import ProfileModal from "./ProfileModal";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -43,15 +43,17 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
     onClose: newEventonClose,
   } = useDisclosure();
 
+  const {
+    isOpen: personnelisOpen,
+    onOpen: personnelonOpen,
+    onClose: personnelonClose,
+  } = useDisclosure();
+
   const [areaCoordinates, setAreaCoordinates] = useState<any>({
     lat: 43.38,
     lng: -80.14,
   });
   const [markerList, setMarkerList] = useState<any[]>([]);
-  // const center = useMemo<LatLngLiteral>(
-  //   () => ({ lat: 43.45, lng: -80.49 }),
-  //   []
-  // );
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "b181cac70f27f5e6",
@@ -125,7 +127,7 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                       position={x}
                       onClick={newEventonOpen}
                       icon={{
-                        url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/green%20event.png",
+                        url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
                         scaledSize: new google.maps.Size(28, 28),
                       }}
                     />
@@ -177,10 +179,15 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
             </Flex>
 
             {[...Array(3)].map((x, i) => (
-              <Box onClick={newEventonOpen}>
+              <Box onClick={personnelonOpen}>
                 <FeedProfileCard />
               </Box>
             ))}
+            <ProfileModal
+              isOpen={personnelisOpen}
+              onOpen={personnelonOpen}
+              onClose={personnelonClose}
+            />
           </Flex>
         </Flex>
       </Box>
