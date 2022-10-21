@@ -1,7 +1,11 @@
 import { Box, Image, Text } from "@chakra-ui/react";
 import tmpImg from "../../../../common/assets/tmp.jpg";
 
-const EventCard: React.FC = () => {
+interface IProps {
+  onOpen: () => void;
+}
+
+const EventCard: React.FC<IProps> = ({ onOpen }) => {
   return (
     <Box
       rounded={"md"}
@@ -12,6 +16,7 @@ const EventCard: React.FC = () => {
         transform: "scale(1.1)",
         cursor: "pointer",
       }}
+      onClick={onOpen}
     >
       <Image
         rounded={"md"}

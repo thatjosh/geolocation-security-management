@@ -4,6 +4,7 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
+  Select,
   Text,
   Textarea,
 } from "@chakra-ui/react";
@@ -22,7 +23,9 @@ interface IProps {
 const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay backdropFilter="blur(20px)" />
+      <ModalOverlay
+      // backdropFilter="blur(20px)"
+      />
       <ModalContent
         width={"80%"}
         rounded={"md"}
@@ -32,11 +35,22 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
       >
         <Flex gap={2} flexDir={"column"}>
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
-            <Text fontSize={"16px"}>Insert new event</Text>
-            <BsFillExclamationTriangleFill />
+            <Text fontSize={"20px"}>Event #1324</Text>
           </Flex>
+
+          <Text fontSize={"14px"}>Event name</Text>
           <Input fontSize={"14px"} placeholder="Event name" />
-          <Textarea fontSize={"14px"} placeholder="Insert details" />
+
+          <Text fontSize={"14px"}>Severity level</Text>
+          <Select fontSize={"14px"} placeholder="Choose severity level">
+            <option value="option1">Low</option>
+            <option value="option2">Mid</option>
+            <option value="option3">High</option>
+          </Select>
+
+          <Text fontSize={"14px"}>Event details</Text>
+          <Textarea fontSize={"14px"} placeholder={"Insert details"} />
+
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
             <Flex
               width={"50%"}
@@ -52,7 +66,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               }}
               justifyContent={"center"}
             >
-              <Text fontSize={"12px"}>{"Submit"}</Text>
+              <Text fontSize={"12px"}>{"Edit"}</Text>
               <BsFillCheckCircleFill />
             </Flex>
             <Flex
@@ -68,7 +82,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               justifyContent={"center"}
               onClick={onClose}
             >
-              <Text fontSize={"12px"}>{"Cancel"}</Text>
+              <Text fontSize={"12px"}>{"Close"}</Text>
               <MdCancel />
             </Flex>
           </Flex>

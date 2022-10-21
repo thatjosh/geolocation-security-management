@@ -3,7 +3,6 @@ import { BsPersonCheckFill } from "react-icons/bs";
 import { HiChat } from "react-icons/Hi";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
-
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
 
 const ProfileSection: React.FC = () => {

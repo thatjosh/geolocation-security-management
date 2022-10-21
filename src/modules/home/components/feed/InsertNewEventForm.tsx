@@ -4,6 +4,7 @@ import {
   Modal,
   ModalContent,
   ModalOverlay,
+  Select,
   Text,
   Textarea,
 } from "@chakra-ui/react";
@@ -22,7 +23,9 @@ interface IProps {
 const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay backdropFilter="blur(20px)" />
+      <ModalOverlay
+      // backdropFilter="blur(20px)"
+      />
       <ModalContent
         width={"80%"}
         rounded={"md"}
@@ -32,10 +35,21 @@ const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
       >
         <Flex gap={2} flexDir={"column"}>
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
-            <Text fontSize={"16px"}>Insert new event</Text>
+            <Text fontSize={"20px"}>Insert New Event</Text>
             <BsFillExclamationTriangleFill />
           </Flex>
+
+          <Text fontSize={"14px"}>Event name</Text>
           <Input fontSize={"14px"} placeholder="Event name" />
+
+          <Text fontSize={"14px"}>Severity level</Text>
+          <Select fontSize={"14px"} placeholder="Choose severity level">
+            <option value="option1">Low</option>
+            <option value="option2">Mid</option>
+            <option value="option3">High</option>
+          </Select>
+
+          <Text fontSize={"14px"}>Event details</Text>
           <Textarea fontSize={"14px"} placeholder="Insert details" />
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
             <Flex
