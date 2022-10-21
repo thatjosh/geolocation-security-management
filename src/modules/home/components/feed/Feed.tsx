@@ -1,21 +1,11 @@
-import {
-  Box,
-  Flex,
-  Image,
-  Modal,
-  ModalCloseButton,
-  ModalContent,
-  ModalOverlay,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
-import tmpImg from "../../../../common/assets/tmp.jpg";
+import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { feed, guard_coordinates } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
 import { IoMdAddCircle } from "react-icons/Io";
 import { MdCancel } from "react-icons/md";
+import InsertNewEventModal from "./InsertNewEventModal";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -26,10 +16,16 @@ interface IProps {
 }
 
 const Feed: React.FC<IProps> = ({ isLoaded }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
   const [currentView, setCurrentView] = useState<string>(feed[0]?.name);
   const [newEvent, setNewEvent] = useState<boolean>();
 
+  const {
+    isOpen: newEventisOpen,
+    onOpen: newEventonOpen,
+    onClose: newEventonClose,
+  } = useDisclosure();
+
+  const [markerList, setMarkerList] = useState<any[]>([]);
   const center = useMemo<LatLngLiteral>(
     () => ({ lat: 43.45, lng: -80.49 }),
     []
@@ -46,7 +42,7 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
     width: "700px",
     height: "350px",
   };
-  const [markerList, setMarkerList] = useState<any[]>([]);
+
   return (
     <Box px={5} pt={5} borderWidth={1} rounded={10}>
       <Flex gap={4}>
@@ -76,20 +72,11 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
         })}
       </Flex>
 
-      <Modal isOpen={isOpen} onClose={onClose}>
-        <ModalOverlay backdropFilter="blur(20px)" />
-        <ModalContent width={"80%"} rounded={"md"} bgColor={"#333333"}>
-          <Image
-            rounded={"md"}
-            width={"100%"}
-            loading={"lazy"}
-            objectFit={"contain"}
-            src={tmpImg}
-            boxShadow={"2xl"}
-          />
-          <ModalCloseButton color={"white"} />
-        </ModalContent>
-      </Modal>
+      <InsertNewEventModal
+        isOpen={newEventisOpen}
+        onOpen={newEventonOpen}
+        onClose={newEventonClose}
+      />
 
       <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
         <Flex flexDir={"row"} flexWrap={"wrap"} gap={3} py={5}>
@@ -100,10 +87,11 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                 center={center}
                 options={options}
                 zoom={10}
-                onClick={(data) => {
+                onClick={(_) => {
                   if (newEvent) {
+                    newEventonOpen();
                     setMarkerList(
-                      markerList.concat(JSON.parse(JSON.stringify(data.latLng)))
+                      markerList.concat(JSON.parse(JSON.stringify(_.latLng)))
                     );
                   }
                 }}
@@ -111,7 +99,7 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                 {guard_coordinates.map((x, i) => (
                   <MarkerF
                     position={x}
-                    onClick={onOpen}
+                    onClick={newEventonOpen}
                     // icon={
                     //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
                     // }
@@ -120,7 +108,7 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                 {markerList.map((x, i) => (
                   <MarkerF
                     position={x}
-                    onClick={onOpen}
+                    onClick={newEventonOpen}
                     // icon={
                     //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
                     // }
@@ -129,41 +117,41 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
               </GoogleMap>
             </>
           )}
-          {
-            <Flex width={"100%"}>
-              <Flex
-                px={4}
-                py={1}
-                my={1}
-                alignItems={"center"}
-                justifyContent={"center"}
-                gap={1}
-                rounded={"20px"}
-                bgGradient={
-                  "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
-                }
-                _hover={{
-                  cursor: "pointer",
-                }}
-                onClick={() => setNewEvent(!newEvent)}
-              >
-                {!newEvent && (
-                  <>
-                    <Text fontSize={"12px"}>{"Add event"}</Text>
-                    <IoMdAddCircle />
-                  </>
-                )}
-                {newEvent && (
-                  <>
-                    <Text fontSize={"12px"}>{"Cancel"}</Text>
-                    <MdCancel />
-                  </>
-                )}
-              </Flex>
+
+          <Flex width={"100%"}>
+            <Flex
+              px={4}
+              py={1}
+              my={1}
+              alignItems={"center"}
+              justifyContent={"center"}
+              gap={1}
+              rounded={"20px"}
+              bgGradient={
+                "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
+              }
+              _hover={{
+                cursor: "pointer",
+              }}
+              onClick={() => setNewEvent(!newEvent)}
+            >
+              {!newEvent && (
+                <>
+                  <Text fontSize={"12px"}>{"Add event"}</Text>
+                  <IoMdAddCircle />
+                </>
+              )}
+              {newEvent && (
+                <>
+                  <Text fontSize={"12px"}>{"Cancel"}</Text>
+                  <MdCancel />
+                </>
+              )}
             </Flex>
-          }
+          </Flex>
+
           {[...Array(3)].map((x, i) => (
-            <Box onClick={onOpen}>
+            <Box onClick={newEventonOpen}>
               <FeedProfileCard />
             </Box>
           ))}
