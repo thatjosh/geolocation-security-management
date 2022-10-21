@@ -5,7 +5,7 @@ import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
 import { IoMdAddCircle } from "react-icons/Io";
 import { MdCancel } from "react-icons/md";
-import InsertNewEventModal from "./InsertNewEventModal";
+import InsertNewEventForm from "./InsertNewEventForm";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -72,7 +72,7 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
         })}
       </Flex>
 
-      <InsertNewEventModal
+      <InsertNewEventForm
         isOpen={newEventisOpen}
         onOpen={newEventonOpen}
         onClose={newEventonClose}
@@ -100,18 +100,20 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                   <MarkerF
                     position={x}
                     onClick={newEventonOpen}
-                    // icon={
-                    //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-                    // }
+                    icon={{
+                      url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/green%20event.png",
+                      scaledSize: new google.maps.Size(28, 28),
+                    }}
                   />
                 ))}
                 {markerList.map((x, i) => (
                   <MarkerF
                     position={x}
                     onClick={newEventonOpen}
-                    // icon={
-                    //   "https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png"
-                    // }
+                    icon={{
+                      url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
+                      scaledSize: new google.maps.Size(24, 24),
+                    }}
                   />
                 ))}
               </GoogleMap>

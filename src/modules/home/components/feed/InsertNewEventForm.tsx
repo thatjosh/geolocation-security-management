@@ -19,7 +19,7 @@ interface IProps {
   onClose: () => void;
 }
 
-const InsertNewEventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
+const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
       <ModalOverlay backdropFilter="blur(20px)" />
@@ -78,4 +78,4 @@ const InsertNewEventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
   );
 };
 
-export default InsertNewEventModal;
+export default InsertNewEventForm;
