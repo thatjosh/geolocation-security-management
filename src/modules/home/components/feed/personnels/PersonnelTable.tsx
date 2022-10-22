@@ -9,16 +9,27 @@ import {
   Th,
   Thead,
   Tr,
+  useDisclosure,
 } from "@chakra-ui/react";
 import { BiShow } from "react-icons/bi";
 import { IoMdMore } from "react-icons/Io";
 import { IPersonnel } from "../../../../../common/interface/interface";
+import { useState } from "react";
+import ProfileModal from "../ProfileModal";
 
 interface IProps {
   data: IPersonnel[];
 }
 
 const PersonnelTable: React.FC<IProps> = ({ data }) => {
+  const [personnelID, setPersonnelID] = useState<number>(-1);
+
+  const {
+    isOpen: personnelisOpen,
+    onOpen: personnelonOpen,
+    onClose: personnelonClose,
+  } = useDisclosure();
+
   return (
     <>
       <Box px={5} py={5} borderWidth={1} rounded={10}>
@@ -55,7 +66,12 @@ const PersonnelTable: React.FC<IProps> = ({ data }) => {
                           cursor: "pointer",
                         }}
                       >
-                        <BiShow />
+                        <BiShow
+                          onClick={(_) => {
+                            personnelonOpen();
+                            setPersonnelID(key);
+                          }}
+                        />
                         <IoMdMore />
                       </Flex>
                     </Td>
@@ -66,6 +82,12 @@ const PersonnelTable: React.FC<IProps> = ({ data }) => {
           </Table>
         </TableContainer>
       </Box>
+      <ProfileModal
+        isOpen={personnelisOpen}
+        onOpen={personnelonOpen}
+        onClose={personnelonClose}
+        data={data[personnelID]}
+      />
     </>
   );
 };

@@ -19,11 +19,10 @@ import {
   personnel_list,
 } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo } from "react";
 import FeedProfileCard from "./FeedProfileCard";
-import { IoMdAddCircle, IoMdMore } from "react-icons/Io";
+import { IoMdAddCircle } from "react-icons/Io";
 import { MdOutlineConstruction } from "react-icons/md";
-import { BiShow } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
@@ -43,8 +42,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
   const [currentView, setCurrentView] = useState<string>(feedArea[0].name);
   const [newEvent, setNewEvent] = useState<boolean>();
 
-  // const [eventID, setEventID] = useState<number>(-1);
-  // const [personnelID, setPersonnelID] = useState<number>(-1);
+  const [personnelID, setPersonnelID] = useState<number>(-1);
 
   const {
     isOpen: newEventisOpen,
@@ -82,7 +80,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
         <PersonnelTable data={personnel_list} />
       )}
       {currentFeed && currentFeed == "Events" && (
-        <EventTable data={event_list} />
+        <EventTable data={event_list} isLoaded={isLoaded} />
       )}
       {currentFeed && currentFeed == "Communication" && (
         <>
@@ -220,7 +218,12 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                 <Flex flexDir={"row"} gap={3}>
                   {personnel_list.map((personnel, key) => (
                     <>
-                      <Box onClick={personnelonOpen}>
+                      <Box
+                        onClick={(_) => {
+                          personnelonOpen();
+                          setPersonnelID(key);
+                        }}
+                      >
                         <FeedProfileCard data={personnel_list[key]} />
                       </Box>
                     </>
@@ -231,7 +234,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                   isOpen={personnelisOpen}
                   onOpen={personnelonOpen}
                   onClose={personnelonClose}
-                  data={personnel_list[0]}
+                  data={personnel_list[personnelID]}
                 />
               </Flex>
             </Flex>

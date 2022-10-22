@@ -1,4 +1,5 @@
-import { Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { useState } from "react";
 import { event_list } from "../../../../common/data/seed";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
@@ -13,6 +14,9 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
     onOpen: eventonOpen,
     onClose: eventonClose,
   } = useDisclosure();
+
+  const [eventID, setEventID] = useState<number>(-1);
+
   return (
     <>
       <Flex
@@ -30,12 +34,14 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
           return (
             <>
               {key < 3 && (
-                <EventCard
-                  onOpen={eventonOpen}
-                  severity={event?.severity_level}
-                  id={event?.id}
-                  region={"Sunway Mall"}
-                />
+                <Box onClick={() => setEventID(key)}>
+                  <EventCard
+                    onOpen={eventonOpen}
+                    severity={event?.severity_level}
+                    id={event?.id}
+                    region={"Sunway Malls"}
+                  />
+                </Box>
               )}
             </>
           );
@@ -45,7 +51,7 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
             isOpen={eventisOpen}
             onOpen={eventonOpen}
             onClose={eventonClose}
-            data={event_list[1]}
+            data={event_list[eventID]}
           />
         )}
       </Flex>
