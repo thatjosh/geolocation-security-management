@@ -70,7 +70,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <GoogleMap
               mapContainerStyle={{
                 width: "100%",
-                height: "150px",
+                height: "130px",
               }}
               center={{
                 lat: 43.38,

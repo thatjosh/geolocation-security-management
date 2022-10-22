@@ -8,6 +8,7 @@ import EventSectionSkeleton from "./components/event/EventSectionSkeleton";
 import ProfileSection from "./components/profile/ProfileSection";
 import { useJsApiLoader, useLoadScript } from "@react-google-maps/api";
 import ProfileSectionSkeleton from "./components/profile/ProfileSectionSkeleton";
+import { useState } from "react";
 
 const HomePage: React.FC = () => {
   const mobileView = useMobileViewToggle();
@@ -16,6 +17,11 @@ const HomePage: React.FC = () => {
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API,
     libraries: ["places"],
   });
+
+  const [currentFeed, setCurrentFeed] = useState<string>("Map visualiser");
+  const handleFeedSwitch = (feedSwitch: string) => {
+    setCurrentFeed(feedSwitch);
+  };
 
   return (
     <>
@@ -32,13 +38,13 @@ const HomePage: React.FC = () => {
         {!mobileView && (
           <>
             {isLoading && <ProfileSectionSkeleton />}
-            {!isLoading && <ProfileSection />}
+            {!isLoading && <ProfileSection feedSwitch={handleFeedSwitch} />}
           </>
         )}
 
         <Box width={[650, 550, 650, 750]} minHeight={"85vh"}>
           {isLoading && <FeedSkeleton />}
-          {!isLoading && <Feed isLoaded={isLoaded} />}
+          {!isLoading && <Feed isLoaded={isLoaded} currentFeed={currentFeed} />}
         </Box>
 
         {!mobileView && (

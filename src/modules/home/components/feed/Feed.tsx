@@ -1,6 +1,7 @@
 import {
   Box,
   Flex,
+  Spacer,
   Table,
   TableContainer,
   Tbody,
@@ -21,6 +22,7 @@ import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
 import { IoMdAddCircle, IoMdMore } from "react-icons/Io";
+import { MdOutlineConstruction } from "react-icons/md";
 import { BiShow } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
@@ -32,9 +34,10 @@ type MapOptions = google.maps.MapOptions;
 
 interface IProps {
   isLoaded: boolean;
+  currentFeed: string;
 }
 
-const Feed: React.FC<IProps> = ({ isLoaded }) => {
+const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
   const [currentView, setCurrentView] = useState<string>(feed[0]?.name);
   const [newEvent, setNewEvent] = useState<boolean>();
 
@@ -70,172 +73,248 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
 
   return (
     <>
-      <Box px={5} pt={5} borderWidth={1} rounded={10}>
-        <Flex gap={4}>
-          {feed.map((category, key) => {
-            return (
-              <Box
-                px={4}
-                py={1}
-                bgGradient={
-                  currentView === category?.name
-                    ? "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
-                    : ""
-                }
-                rounded={"full"}
-                _hover={{
-                  bgGradient:
-                    "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setCurrentView(category.name);
-                  setAreaCoordinates(area_coordinates[key].coordinates);
-                }}
-              >
-                <Text fontSize={"12px"}>{category.name}</Text>
-              </Box>
-            );
-          })}
-        </Flex>
-
-        <InsertNewEventForm
-          isOpen={newEventisOpen}
-          onOpen={newEventonOpen}
-          onClose={newEventonClose}
-        />
-
-        <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
-          <Flex flexDir={"row"} flexWrap={"wrap"} gap={3} py={5}>
-            {isLoaded && (
-              <>
-                <GoogleMap
-                  mapContainerStyle={containerStyle}
-                  center={areaCoordinates}
-                  options={options}
-                  zoom={10}
-                  onClick={(_) => {
-                    if (newEvent) {
-                      newEventonOpen();
-                      setMarkerList(
-                        markerList.concat(JSON.parse(JSON.stringify(_.latLng)))
-                      );
-                    }
-                  }}
-                >
-                  {guard_coordinates.map((x, i) => (
-                    <MarkerF
-                      position={x}
-                      onClick={newEventonOpen}
-                      icon={{
-                        url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
-                        scaledSize: new google.maps.Size(28, 28),
-                      }}
-                    />
-                  ))}
-                  {markerList.map((x, i) => (
-                    <MarkerF
-                      position={x}
-                      onClick={newEventonOpen}
-                      icon={{
-                        url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
-                        scaledSize: new google.maps.Size(24, 24),
-                      }}
-                    />
-                  ))}
-                </GoogleMap>
-              </>
-            )}
-
-            <Flex width={"100%"}>
-              <Flex
-                px={4}
-                py={1}
-                my={1}
-                alignItems={"center"}
-                justifyContent={"center"}
-                gap={1}
-                rounded={"20px"}
-                bgGradient={
-                  "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
-                }
-                _hover={{
-                  cursor: "pointer",
-                }}
-                onClick={() => setNewEvent(!newEvent)}
-              >
-                {!newEvent && (
-                  <>
-                    <Text fontSize={"12px"}>{"Add event"}</Text>
-                    <IoMdAddCircle />
-                  </>
-                )}
-                {newEvent && (
-                  <>
-                    <Text fontSize={"12px"}>{"Cancel"}</Text>
-                    <MdCancel />
-                  </>
-                )}
-              </Flex>
-            </Flex>
-
-            {[...Array(3)].map((x, i) => (
-              <Box onClick={personnelonOpen}>
-                <FeedProfileCard />
-              </Box>
-            ))}
-            <ProfileModal
-              isOpen={personnelisOpen}
-              onOpen={personnelonOpen}
-              onClose={personnelonClose}
-            />
-          </Flex>
-        </Flex>
-      </Box>
-      <Box px={5} py={5} borderWidth={1} rounded={10}>
-        <TableContainer>
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                <Th>#</Th>
-                <Th>Personnel ID</Th>
-                <Th>Personnel Name</Th>
-                <Th>Status</Th>
-                {/* <Th>Area</Th> */}
-                <Th>Region</Th>
-                <Th>Rank</Th>
-                <Th>More</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {personnel_list.map((personnel, key) => {
+      {currentFeed && currentFeed == "Map visualiser" && (
+        <Box px={5} py={5} borderWidth={1} rounded={10}>
+          <Flex>
+            <Flex gap={4}>
+              {feed.map((category, key) => {
                 return (
-                  <Tr>
-                    <Td>{key + 1}</Td>
-                    <Td>{personnel.id}</Td>
-                    <Td>{personnel.name}</Td>
-                    <Td>{personnel.status}</Td>
-                    {/* <Td>{personnel.area}</Td> */}
-                    <Td>{personnel.region}</Td>
-                    <Td>{personnel.rank}</Td>
-                    <Td>
-                      <Flex
-                        gap={1}
-                        _hover={{
-                          cursor: "pointer",
-                        }}
-                      >
-                        <BiShow />
-                        <IoMdMore />
-                      </Flex>
-                    </Td>
-                  </Tr>
+                  <Flex
+                    px={4}
+                    py={1}
+                    bgGradient={
+                      currentView === category?.name
+                        ? "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
+                        : ""
+                    }
+                    rounded={"full"}
+                    _hover={{
+                      bgGradient:
+                        "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)",
+                      cursor: "pointer",
+                    }}
+                    onClick={() => {
+                      setCurrentView(category.name);
+                      setAreaCoordinates(area_coordinates[key].coordinates);
+                    }}
+                  >
+                    <Text fontSize={"12px"}>{category.name}</Text>
+                  </Flex>
                 );
               })}
-            </Tbody>
-          </Table>
-        </TableContainer>
-      </Box>
+            </Flex>
+            <Spacer />
+            <Flex
+              px={4}
+              py={1}
+              alignItems={"center"}
+              justifyContent={"center"}
+              gap={1}
+              rounded={"20px"}
+              bgGradient={
+                "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
+              }
+              _hover={{
+                cursor: "pointer",
+              }}
+              onClick={() => setNewEvent(!newEvent)}
+            >
+              {!newEvent && (
+                <>
+                  <Text fontSize={"12px"}>{"Add event"}</Text>
+                  <IoMdAddCircle />
+                </>
+              )}
+              {newEvent && (
+                <>
+                  <Text fontSize={"12px"}>{"Cancel"}</Text>
+                  <MdCancel />
+                </>
+              )}
+            </Flex>
+          </Flex>
+
+          <InsertNewEventForm
+            isOpen={newEventisOpen}
+            onOpen={newEventonOpen}
+            onClose={newEventonClose}
+          />
+
+          <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
+            <Flex flexDir={"row"} flexWrap={"wrap"} gap={3} py={5}>
+              {isLoaded && (
+                <>
+                  <GoogleMap
+                    mapContainerStyle={containerStyle}
+                    center={areaCoordinates}
+                    options={options}
+                    zoom={10}
+                    onClick={(_) => {
+                      if (newEvent) {
+                        newEventonOpen();
+                        setMarkerList(
+                          markerList.concat(
+                            JSON.parse(JSON.stringify(_.latLng))
+                          )
+                        );
+                      }
+                    }}
+                  >
+                    {guard_coordinates.map((x, i) => (
+                      <MarkerF
+                        position={x}
+                        onClick={newEventonOpen}
+                        icon={{
+                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
+                          scaledSize: new google.maps.Size(28, 28),
+                        }}
+                      />
+                    ))}
+                    {markerList.map((x, i) => (
+                      <MarkerF
+                        position={x}
+                        onClick={newEventonOpen}
+                        icon={{
+                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
+                          scaledSize: new google.maps.Size(24, 24),
+                        }}
+                      />
+                    ))}
+                  </GoogleMap>
+                </>
+              )}
+
+              <Flex width={"100%"}></Flex>
+
+              <Flex flexDir={"column"} gap={1}>
+                <Text mb={2} fontSize={14}>
+                  Nearby personnels
+                </Text>
+                <Flex flexDir={"row"} gap={3}>
+                  {[...Array(3)].map((x, i) => (
+                    <Box onClick={personnelonOpen}>
+                      <FeedProfileCard />
+                    </Box>
+                  ))}
+                </Flex>
+                <ProfileModal
+                  isOpen={personnelisOpen}
+                  onOpen={personnelonOpen}
+                  onClose={personnelonClose}
+                />
+              </Flex>
+            </Flex>
+          </Flex>
+        </Box>
+      )}
+      {currentFeed && currentFeed == "Personnels" && (
+        <Box px={5} py={5} borderWidth={1} rounded={10}>
+          <TableContainer>
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Personnel ID</Th>
+                  <Th>Personnel Name</Th>
+                  <Th>Status</Th>
+                  {/* <Th>Area</Th> */}
+                  <Th>Region</Th>
+                  <Th>Rank</Th>
+                  <Th>More</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {personnel_list.map((personnel, key) => {
+                  return (
+                    <Tr>
+                      <Td>{key + 1}</Td>
+                      <Td>{personnel.id}</Td>
+                      <Td>{personnel.name}</Td>
+                      <Td>{personnel.status}</Td>
+                      {/* <Td>{personnel.area}</Td> */}
+                      <Td>{personnel.region}</Td>
+                      <Td>{personnel.rank}</Td>
+                      <Td>
+                        <Flex
+                          gap={1}
+                          _hover={{
+                            cursor: "pointer",
+                          }}
+                        >
+                          <BiShow />
+                          <IoMdMore />
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
+      {currentFeed && currentFeed == "Events" && (
+        <Box px={5} py={5} borderWidth={1} rounded={10}>
+          <TableContainer>
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Personnel ID</Th>
+                  <Th>Personnel Name</Th>
+                  <Th>Status</Th>
+                  {/* <Th>Area</Th> */}
+                  <Th>Region</Th>
+                  <Th>Rank</Th>
+                  <Th>More</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {personnel_list.map((personnel, key) => {
+                  return (
+                    <Tr>
+                      <Td>{key + 1}</Td>
+                      <Td>{personnel.id}</Td>
+                      <Td>{personnel.name}</Td>
+                      <Td>{personnel.status}</Td>
+                      {/* <Td>{personnel.area}</Td> */}
+                      <Td>{personnel.region}</Td>
+                      <Td>{personnel.rank}</Td>
+                      <Td>
+                        <Flex
+                          gap={1}
+                          _hover={{
+                            cursor: "pointer",
+                          }}
+                        >
+                          <BiShow />
+                          <IoMdMore />
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
+      )}
+      {currentFeed && currentFeed == "Communication" && (
+        <>
+          <Flex
+            gap={2}
+            flexDir={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            py={20}
+            borderWidth={1}
+            rounded={10}
+          >
+            <MdOutlineConstruction size={50} />
+            <Text>Feature is under development</Text>
+          </Flex>
+        </>
+      )}
     </>
   );
 };

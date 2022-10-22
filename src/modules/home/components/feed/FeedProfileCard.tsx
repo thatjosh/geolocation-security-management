@@ -1,5 +1,4 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
-import tmpImg from "../../../../common/assets/tmp.jpg";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
 
 const FeedProfileCard: React.FC = () => {
@@ -7,7 +6,6 @@ const FeedProfileCard: React.FC = () => {
     <Box
       rounded={"md"}
       width={"220px"}
-      height={"150px"}
       transition={"transform 0.8s"}
       _hover={{
         transform: "scale(1.1)",

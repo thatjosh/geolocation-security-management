@@ -5,7 +5,11 @@ import { FaMapMarkedAlt } from "react-icons/fa";
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
 
-const ProfileSection: React.FC = () => {
+interface IProps {
+  feedSwitch: (feedSwitch: string) => void;
+}
+
+const ProfileSection: React.FC<IProps> = ({ feedSwitch }) => {
   const profileSection = [
     {
       title: "Map visualiser",
@@ -67,6 +71,7 @@ const ProfileSection: React.FC = () => {
               cursor: "pointer",
               bgColor: "#1a1a1a",
             }}
+            onClick={() => feedSwitch(section.title)}
           >
             {section.icon}
             <Text fontSize={"12px"}>{section.title}</Text>
