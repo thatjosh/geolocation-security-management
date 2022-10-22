@@ -13,8 +13,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  area_coordinates,
-  feed,
+  event_list,
+  feedArea,
   guard_coordinates,
   personnel_list,
 } from "../../../../common/data/seed";
@@ -27,6 +27,8 @@ import { BiShow } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
+import PersonnelTable from "./personnels/PersonnelTable";
+import EventTable from "./events/EventsTable";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -38,8 +40,11 @@ interface IProps {
 }
 
 const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
-  const [currentView, setCurrentView] = useState<string>(feed[0]?.name);
+  const [currentView, setCurrentView] = useState<string>(feedArea[0].name);
   const [newEvent, setNewEvent] = useState<boolean>();
+
+  // const [eventID, setEventID] = useState<number>(-1);
+  // const [personnelID, setPersonnelID] = useState<number>(-1);
 
   const {
     isOpen: newEventisOpen,
@@ -73,17 +78,39 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
 
   return (
     <>
+      {currentFeed && currentFeed == "Personnels" && (
+        <PersonnelTable data={personnel_list} />
+      )}
+      {currentFeed && currentFeed == "Events" && (
+        <EventTable data={event_list} />
+      )}
+      {currentFeed && currentFeed == "Communication" && (
+        <>
+          <Flex
+            gap={2}
+            flexDir={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            py={20}
+            borderWidth={1}
+            rounded={10}
+          >
+            <MdOutlineConstruction size={50} />
+            <Text>Feature is under development</Text>
+          </Flex>
+        </>
+      )}
       {currentFeed && currentFeed == "Map visualiser" && (
         <Box px={5} py={5} borderWidth={1} rounded={10}>
           <Flex>
             <Flex gap={4}>
-              {feed.map((category, key) => {
+              {feedArea.map((area, key) => {
                 return (
                   <Flex
                     px={4}
                     py={1}
                     bgGradient={
-                      currentView === category?.name
+                      currentView === area?.name
                         ? "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
                         : ""
                     }
@@ -94,11 +121,11 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                       cursor: "pointer",
                     }}
                     onClick={() => {
-                      setCurrentView(category.name);
-                      setAreaCoordinates(area_coordinates[key].coordinates);
+                      setCurrentView(area.name);
+                      setAreaCoordinates(area.coordinates);
                     }}
                   >
-                    <Text fontSize={"12px"}>{category.name}</Text>
+                    <Text fontSize={"12px"}>{area.name}</Text>
                   </Flex>
                 );
               })}
@@ -191,129 +218,25 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                   Nearby personnels
                 </Text>
                 <Flex flexDir={"row"} gap={3}>
-                  {[...Array(3)].map((x, i) => (
-                    <Box onClick={personnelonOpen}>
-                      <FeedProfileCard />
-                    </Box>
+                  {personnel_list.map((personnel, key) => (
+                    <>
+                      <Box onClick={personnelonOpen}>
+                        <FeedProfileCard data={personnel_list[key]} />
+                      </Box>
+                    </>
                   ))}
                 </Flex>
+
                 <ProfileModal
                   isOpen={personnelisOpen}
                   onOpen={personnelonOpen}
                   onClose={personnelonClose}
+                  data={personnel_list[0]}
                 />
               </Flex>
             </Flex>
           </Flex>
         </Box>
-      )}
-      {currentFeed && currentFeed == "Personnels" && (
-        <Box px={5} py={5} borderWidth={1} rounded={10}>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>#</Th>
-                  <Th>Personnel ID</Th>
-                  <Th>Personnel Name</Th>
-                  <Th>Status</Th>
-                  {/* <Th>Area</Th> */}
-                  <Th>Region</Th>
-                  <Th>Rank</Th>
-                  <Th>More</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {personnel_list.map((personnel, key) => {
-                  return (
-                    <Tr>
-                      <Td>{key + 1}</Td>
-                      <Td>{personnel.id}</Td>
-                      <Td>{personnel.name}</Td>
-                      <Td>{personnel.status}</Td>
-                      {/* <Td>{personnel.area}</Td> */}
-                      <Td>{personnel.region}</Td>
-                      <Td>{personnel.rank}</Td>
-                      <Td>
-                        <Flex
-                          gap={1}
-                          _hover={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <BiShow />
-                          <IoMdMore />
-                        </Flex>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Box>
-      )}
-      {currentFeed && currentFeed == "Events" && (
-        <Box px={5} py={5} borderWidth={1} rounded={10}>
-          <TableContainer>
-            <Table size="sm">
-              <Thead>
-                <Tr>
-                  <Th>#</Th>
-                  <Th>Personnel ID</Th>
-                  <Th>Personnel Name</Th>
-                  <Th>Status</Th>
-                  {/* <Th>Area</Th> */}
-                  <Th>Region</Th>
-                  <Th>Rank</Th>
-                  <Th>More</Th>
-                </Tr>
-              </Thead>
-              <Tbody>
-                {personnel_list.map((personnel, key) => {
-                  return (
-                    <Tr>
-                      <Td>{key + 1}</Td>
-                      <Td>{personnel.id}</Td>
-                      <Td>{personnel.name}</Td>
-                      <Td>{personnel.status}</Td>
-                      {/* <Td>{personnel.area}</Td> */}
-                      <Td>{personnel.region}</Td>
-                      <Td>{personnel.rank}</Td>
-                      <Td>
-                        <Flex
-                          gap={1}
-                          _hover={{
-                            cursor: "pointer",
-                          }}
-                        >
-                          <BiShow />
-                          <IoMdMore />
-                        </Flex>
-                      </Td>
-                    </Tr>
-                  );
-                })}
-              </Tbody>
-            </Table>
-          </TableContainer>
-        </Box>
-      )}
-      {currentFeed && currentFeed == "Communication" && (
-        <>
-          <Flex
-            gap={2}
-            flexDir={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            py={20}
-            borderWidth={1}
-            rounded={10}
-          >
-            <MdOutlineConstruction size={50} />
-            <Text>Feature is under development</Text>
-          </Flex>
-        </>
       )}
     </>
   );

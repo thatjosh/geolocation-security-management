@@ -1,4 +1,5 @@
 import { Flex, Text, useDisclosure } from "@chakra-ui/react";
+import { event_list } from "../../../../common/data/seed";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
@@ -25,18 +26,29 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
         rounded={10}
       >
         <Text>Events</Text>
-        <EventCard onOpen={eventonOpen} />
-        <EventCard onOpen={eventonOpen} />
-        <EventCard onOpen={eventonOpen} />
+        {event_list.map((event, key) => {
+          return (
+            <>
+              {key < 3 && (
+                <EventCard
+                  onOpen={eventonOpen}
+                  severity={event?.severity_level}
+                  id={event?.id}
+                  region={"Sunway Mall"}
+                />
+              )}
+            </>
+          );
+        })}
+        {isLoaded && (
+          <EventModal
+            isOpen={eventisOpen}
+            onOpen={eventonOpen}
+            onClose={eventonClose}
+            data={event_list[1]}
+          />
+        )}
       </Flex>
-
-      {isLoaded && (
-        <EventModal
-          isOpen={eventisOpen}
-          onOpen={eventonOpen}
-          onClose={eventonClose}
-        />
-      )}
     </>
   );
 };

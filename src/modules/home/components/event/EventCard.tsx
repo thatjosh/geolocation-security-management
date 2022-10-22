@@ -1,11 +1,31 @@
 import { Box, Image, Text } from "@chakra-ui/react";
-import tmpImg from "../../../../common/assets/tmp.jpg";
+import high_sev from "../../../../common/assets/banner/high_sev.png";
+import mid_sev from "../../../../common/assets/banner/mid_sev.png";
+import low_sev from "../../../../common/assets/banner/low_sev.png";
 
 interface IProps {
   onOpen: () => void;
+  severity: string;
+  id: number;
+  region: string;
 }
 
-const EventCard: React.FC<IProps> = ({ onOpen }) => {
+const EventCard: React.FC<IProps> = ({ onOpen, severity, id, region }) => {
+  let src_url = "";
+  switch (severity) {
+    case "high":
+      src_url = high_sev;
+      break;
+    case "mid":
+      src_url = mid_sev;
+      break;
+    case "low":
+      src_url = low_sev;
+      break;
+    default:
+      src_url = high_sev;
+  }
+
   return (
     <Box
       rounded={"md"}
@@ -18,25 +38,34 @@ const EventCard: React.FC<IProps> = ({ onOpen }) => {
       }}
       onClick={onOpen}
     >
-      <Box
+      {/* <Box
         rounded={"md"}
         width={"220px"}
         bgColor={"#ffa463"}
         height={"100px"}
+      /> */}
+
+      <Image
+        rounded={"md"}
+        width={"220px"}
+        height={"100px"}
+        objectFit={"cover"}
+        src={src_url}
+        boxShadow={"2xl"}
       />
 
-      <Box
+      {/* <Box
         position={"relative"}
         zIndex={0}
         mt={"-100px"}
         rounded={"md"}
         height={"100px"}
         bgGradient={
-          "linear-gradient(180deg, rgba(0, 0, 0, 0) 2.4%, rgba(0, 0, 0, 0.65) 100%);"
+          "linear-gradient(200deg, rgba(0, 0, 0, 0) 45%, rgba(0, 0, 0, 0.65) 100%);"
         }
-      />
-      <Box position={"relative"} mt={"-35px"} ml={5}>
-        <Text>Card 1</Text>
+      /> */}
+      <Box position={"relative"} mt={"-30px"} ml={5}>
+        <Text fontSize={"12px"}>{`${region} #${id}`}</Text>
       </Box>
     </Box>
   );

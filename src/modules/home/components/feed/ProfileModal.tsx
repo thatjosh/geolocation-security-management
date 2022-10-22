@@ -6,23 +6,21 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
-import { GoogleMap } from "@react-google-maps/api";
-import { useMemo } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
+import { IPersonnel } from "../../../../common/interface/interface";
 
 interface IProps {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  data: IPersonnel;
 }
 
-const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
+const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay
-      // backdropFilter="blur(20px)"
-      />
+      <ModalOverlay />
       <ModalContent
         width={"80%"}
         rounded={"md"}
@@ -32,42 +30,42 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
       >
         <Flex gap={2} flexDir={"column"}>
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
-            <Text fontSize={"20px"}>Guard 1514</Text>
+            <Text fontSize={"20px"}>{`Personnel ${data?.id}`}</Text>
           </Flex>
 
           <Flex my={3} gap={2} flexDir={"column"}>
             <Text fontSize={"14px"}>Name</Text>
             <Input
               fontSize={"14px"}
-              placeholder="Mikael"
+              placeholder={data?.name}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
             <Text fontSize={"14px"}>Status</Text>
             <Input
               fontSize={"14px"}
-              placeholder="On duty"
+              placeholder={data?.status}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
             <Text fontSize={"14px"}>Area</Text>
             <Input
               fontSize={"14px"}
-              placeholder="3132A"
+              placeholder={data?.area}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
             <Text fontSize={"14px"}>Region</Text>
             <Input
               fontSize={"14px"}
-              placeholder="Sunway Malls"
+              placeholder={data?.region}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
             <Text fontSize={"14px"}>Rank</Text>
             <Input
               fontSize={"14px"}
-              placeholder="T2"
+              placeholder={data?.rank}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />

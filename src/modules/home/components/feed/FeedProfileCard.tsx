@@ -1,7 +1,12 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
+import { IPersonnel } from "../../../../common/interface/interface";
+import personnel from "../../../../common/assets/banner/personnel.png";
+interface IProps {
+  data: IPersonnel;
+}
 
-const FeedProfileCard: React.FC = () => {
+const FeedProfileCard: React.FC<IProps> = ({ data }) => {
   return (
     <Box
       rounded={"md"}
@@ -12,13 +17,15 @@ const FeedProfileCard: React.FC = () => {
         cursor: "pointer",
       }}
     >
-      <Box
+      <Image
         rounded={"md"}
         width={"220px"}
-        bgColor={"#ffa463"}
-        height={"130px"}
+        height={"100px"}
+        objectFit={"cover"}
+        src={personnel}
+        boxShadow={"2xl"}
       />
-      <Box
+      {/* <Box
         position={"relative"}
         zIndex={0}
         mt={"-150px"}
@@ -27,8 +34,8 @@ const FeedProfileCard: React.FC = () => {
         bgGradient={
           "linear-gradient(180deg, rgba(0, 0, 0, 0) 2.4%, rgba(0, 0, 0, 0.65) 100%);"
         }
-      />
-      <Box position={"relative"} mt={"-65px"} px={3} width={"100%"}>
+      /> */}
+      <Box position={"relative"} mt={"-72px"} px={3} width={"100%"}>
         <Flex
           gap={2}
           alignItems={"center"}
@@ -44,8 +51,8 @@ const FeedProfileCard: React.FC = () => {
             src={profilePhoto}
           />
           <Flex flexDir={"column"} gap={1}>
-            <Text>Guard name</Text>
-            <Text fontSize={"10px"}>#guard1514</Text>
+            <Text>{data?.name}</Text>
+            <Text fontSize={"10px"}>{`#${data?.id}`}</Text>
           </Flex>
         </Flex>
       </Box>

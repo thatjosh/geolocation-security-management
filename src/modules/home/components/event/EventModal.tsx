@@ -14,16 +14,18 @@ import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useMemo } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
+import { IEvent } from "../../../../common/interface/interface";
 
 interface IProps {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  data: IEvent;
 }
 
 type MapOptions = google.maps.MapOptions;
 
-const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
+const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "b181cac70f27f5e6",
@@ -34,9 +36,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
   );
   return (
     <Modal isOpen={isOpen} onClose={onClose} size={"6xl"}>
-      <ModalOverlay
-      // backdropFilter="blur(20px)"
-      />
+      <ModalOverlay />
       <ModalContent
         rounded={"md"}
         bgColor={"#333333"}
@@ -46,15 +46,15 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
         height={"75vh"}
       >
         <Flex flexDir={"column"} my={2}>
-          <Text fontSize={"20px"}>Event #1324</Text>
+          <Text fontSize={"20px"}>{`Event`}</Text>
         </Flex>
 
         <Flex flexDir={"row"} gap={10}>
           <Flex gap={2} flexDir={"column"} width={"45%"}>
-            <Text fontSize={"14px"}>Event ID</Text>
+            <Text fontSize={"14px"}>Event</Text>
             <Input
               fontSize={"14px"}
-              placeholder={"784562"}
+              placeholder={data?.id.toString()}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
@@ -62,7 +62,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <Text fontSize={"14px"}>Severity level</Text>
             <Select
               fontSize={"14px"}
-              placeholder={"Mid"}
+              placeholder={data?.severity_level}
               isReadOnly={true}
             ></Select>
 
@@ -72,18 +72,12 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
                 width: "100%",
                 height: "130px",
               }}
-              center={{
-                lat: 43.38,
-                lng: -80.14,
-              }}
+              center={data?.coordinate}
               options={options}
               zoom={18}
             >
               <MarkerF
-                position={{
-                  lat: 43.38,
-                  lng: -80.14,
-                }}
+                position={data?.coordinate}
                 icon={{
                   url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
                   scaledSize: new google.maps.Size(28, 28),
@@ -95,7 +89,8 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <Text fontSize={"14px"}>Status</Text>
             <Input
               fontSize={"14px"}
-              placeholder={"Active"}
+              placeholder={data?.status}
+              value={data?.status}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
@@ -103,7 +98,8 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <Text fontSize={"14px"}>Personnels notified</Text>
             <Input
               fontSize={"14px"}
-              placeholder={"#3245, #4874, #0978"}
+              placeholder={JSON.stringify(data?.personnels_notified)}
+              value={JSON.stringify(data?.personnels_notified)}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
@@ -112,9 +108,8 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <Textarea
               fontSize={"14px"}
               minHeight={"150px"}
-              placeholder={
-                "Two burglars broke into the gadget warehouse and stole four tablets."
-              }
+              placeholder={data?.details}
+              value={data?.details}
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
