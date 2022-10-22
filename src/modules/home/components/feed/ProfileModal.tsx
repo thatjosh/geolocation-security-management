@@ -6,6 +6,8 @@ import {
   ModalOverlay,
   Text,
 } from "@chakra-ui/react";
+import { GoogleMap } from "@react-google-maps/api";
+import { useMemo } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 
@@ -33,7 +35,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <Text fontSize={"20px"}>Guard 1514</Text>
           </Flex>
 
-          <Flex my={3} gap={2.5} flexDir={"column"}>
+          <Flex my={3} gap={2} flexDir={"column"}>
             <Text fontSize={"14px"}>Name</Text>
             <Input
               fontSize={"14px"}
@@ -41,7 +43,6 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
-
             <Text fontSize={"14px"}>Status</Text>
             <Input
               fontSize={"14px"}
@@ -49,7 +50,6 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
-
             <Text fontSize={"14px"}>Area</Text>
             <Input
               fontSize={"14px"}
@@ -57,7 +57,6 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
-
             <Text fontSize={"14px"}>Region</Text>
             <Input
               fontSize={"14px"}
@@ -65,7 +64,6 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
               _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
-
             <Text fontSize={"14px"}>Rank</Text>
             <Input
               fontSize={"14px"}

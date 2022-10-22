@@ -20,7 +20,8 @@ import {
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
-import { IoMdAddCircle } from "react-icons/Io";
+import { IoMdAddCircle, IoMdMore } from "react-icons/Io";
+import { BiShow } from "react-icons/bi";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
@@ -200,9 +201,10 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                 <Th>Personnel ID</Th>
                 <Th>Personnel Name</Th>
                 <Th>Status</Th>
-                <Th>Area</Th>
+                {/* <Th>Area</Th> */}
                 <Th>Region</Th>
                 <Th>Rank</Th>
+                <Th>More</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -213,9 +215,20 @@ const Feed: React.FC<IProps> = ({ isLoaded }) => {
                     <Td>{personnel.id}</Td>
                     <Td>{personnel.name}</Td>
                     <Td>{personnel.status}</Td>
-                    <Td>{personnel.area}</Td>
+                    {/* <Td>{personnel.area}</Td> */}
                     <Td>{personnel.region}</Td>
                     <Td>{personnel.rank}</Td>
+                    <Td>
+                      <Flex
+                        gap={1}
+                        _hover={{
+                          cursor: "pointer",
+                        }}
+                      >
+                        <BiShow />
+                        <IoMdMore />
+                      </Flex>
+                    </Td>
                   </Tr>
                 );
               })}

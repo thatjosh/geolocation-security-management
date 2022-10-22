@@ -49,6 +49,12 @@ const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <option value="option3">High</option>
           </Select>
 
+          <Text fontSize={"14px"}>Alert nearby personnels (up to 3km)</Text>
+          <Select fontSize={"14px"}>
+            <option value="option2">Yes</option>
+            <option value="option3">No</option>
+          </Select>
+
           <Text fontSize={"14px"}>Event details</Text>
           <Textarea fontSize={"14px"} placeholder="Insert details" />
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>

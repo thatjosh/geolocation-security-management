@@ -44,7 +44,7 @@ const HomePage: React.FC = () => {
         {!mobileView && (
           <>
             {isLoading && <EventSectionSkeleton />}
-            {!isLoading && <EventSection />}
+            {!isLoading && <EventSection isLoaded={isLoaded} />}
           </>
         )}
       </Flex>

@@ -2,7 +2,11 @@ import { Flex, Text, useDisclosure } from "@chakra-ui/react";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
-const EventSection: React.FC = () => {
+interface IProps {
+  isLoaded: boolean;
+}
+
+const EventSection: React.FC<IProps> = ({ isLoaded }) => {
   const {
     isOpen: eventisOpen,
     onOpen: eventonOpen,
@@ -26,11 +30,13 @@ const EventSection: React.FC = () => {
         <EventCard onOpen={eventonOpen} />
       </Flex>
 
-      <EventModal
-        isOpen={eventisOpen}
-        onOpen={eventonOpen}
-        onClose={eventonClose}
-      />
+      {isLoaded && (
+        <EventModal
+          isOpen={eventisOpen}
+          onOpen={eventonOpen}
+          onClose={eventonClose}
+        />
+      )}
     </>
   );
 };
