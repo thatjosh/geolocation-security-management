@@ -13,15 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { BiShow } from "react-icons/bi";
 import { IoMdMore } from "react-icons/Io";
-import { IPersonnel } from "../../../../../common/interface/interface";
+import { INewPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
 import ProfileModal from "../ProfileModal";
 
 interface IProps {
-  data: IPersonnel[];
+  personnelData: INewPersonnel[];
 }
 
-const PersonnelTable: React.FC<IProps> = ({ data }) => {
+const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
   const [personnelID, setPersonnelID] = useState<number>(-1);
 
   const {
@@ -33,60 +33,78 @@ const PersonnelTable: React.FC<IProps> = ({ data }) => {
   return (
     <>
       <Box px={5} py={5} borderWidth={1} rounded={10}>
-        <Text fontSize={"20px"} mb={2}>
-          Personnels
-        </Text>
-        <TableContainer>
-          <Table size="sm">
-            <Thead>
-              <Tr>
-                <Th>#</Th>
-                <Th>Personnel ID</Th>
-                <Th>Personnel Name</Th>
-                <Th>Status</Th>
-                <Th>Region</Th>
-                <Th>Rank</Th>
-                <Th>More</Th>
-              </Tr>
-            </Thead>
-            <Tbody>
-              {data.map((personnel, key) => {
-                return (
-                  <Tr>
-                    <Td>{key + 1}</Td>
-                    <Td>{personnel.id}</Td>
-                    <Td>{personnel.name}</Td>
-                    <Td>{personnel.status}</Td>
-                    <Td>{personnel.region}</Td>
-                    <Td>{personnel.rank}</Td>
-                    <Td>
-                      <Flex
-                        gap={1}
-                        _hover={{
-                          cursor: "pointer",
-                        }}
-                      >
-                        <BiShow
-                          onClick={(_) => {
-                            personnelonOpen();
-                            setPersonnelID(key);
+        <Box
+          maxHeight={600}
+          overflowY="auto"
+          css={{
+            "&::-webkit-scrollbar": {
+              width: "4px",
+            },
+            "&::-webkit-scrollbar-track": {
+              width: "6px",
+            },
+            "&::-webkit-scrollbar-thumb": {
+              background: "#3a3a3a",
+              borderRadius: "24px",
+            },
+          }}
+          pr={3}
+        >
+          <Text fontSize={"20px"} mb={2}>
+            Personnels
+          </Text>
+          <TableContainer>
+            <Table size="sm">
+              <Thead>
+                <Tr>
+                  <Th>#</Th>
+                  <Th>Personnel ID</Th>
+                  <Th>Name</Th>
+                  <Th>Status</Th>
+                  <Th>Region</Th>
+                  <Th>Rank</Th>
+                  <Th>More</Th>
+                </Tr>
+              </Thead>
+              <Tbody>
+                {personnelData.map((personnel, key) => {
+                  return (
+                    <Tr>
+                      <Td>{key + 1}</Td>
+                      <Td>{personnel.id}</Td>
+                      <Td>{`${personnel.first_name} ${personnel.last_name_initial}.`}</Td>
+                      <Td>{personnel.status}</Td>
+                      <Td>{personnel.region}</Td>
+                      <Td>{personnel.rank}</Td>
+                      <Td>
+                        <Flex
+                          gap={1}
+                          _hover={{
+                            cursor: "pointer",
                           }}
-                        />
-                        <IoMdMore />
-                      </Flex>
-                    </Td>
-                  </Tr>
-                );
-              })}
-            </Tbody>
-          </Table>
-        </TableContainer>
+                        >
+                          <BiShow
+                            onClick={(_) => {
+                              personnelonOpen();
+                              setPersonnelID(key);
+                            }}
+                          />
+                          <IoMdMore />
+                        </Flex>
+                      </Td>
+                    </Tr>
+                  );
+                })}
+              </Tbody>
+            </Table>
+          </TableContainer>
+        </Box>
       </Box>
       <ProfileModal
         isOpen={personnelisOpen}
         onOpen={personnelonOpen}
         onClose={personnelonClose}
-        data={data[personnelID]}
+        data={personnelData[personnelID]}
       />
     </>
   );

@@ -6,6 +6,16 @@ export interface IPersonnel {
   region: string;
   rank: string;
 }
+export interface INewPersonnel {
+  id: number;
+  first_name: string;
+  last_name_initial: string;
+  status: string;
+  area: string;
+  region: string;
+  rank: string;
+  coordinate: GMapsCoordinates;
+}
 
 export interface GMapsCoordinates {
   lat: number;

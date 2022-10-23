@@ -12,11 +12,7 @@ import {
   Tr,
   useDisclosure,
 } from "@chakra-ui/react";
-import {
-  feedArea,
-  event_list,
-  personnel_list,
-} from "../../../../common/data/seed";
+import { feedArea, event_list } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo } from "react";
 import FeedProfileCard from "./FeedProfileCard";
@@ -27,6 +23,12 @@ import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
 import PersonnelTable from "./personnels/PersonnelTable";
 import EventTable from "./events/EventsTable";
+import {
+  new_event_list,
+  new_feed_area,
+  new_personnel_list,
+} from "../../../../common/data/seed2";
+import { IEvent, INewPersonnel } from "../../../../common/interface/interface";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -38,7 +40,7 @@ interface IProps {
 }
 
 const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
-  const [currentView, setCurrentView] = useState<string>(feedArea[0].name);
+  const [currentView, setCurrentView] = useState<string>(new_feed_area[0].name);
   const [newEvent, setNewEvent] = useState<boolean>();
 
   const [personnelID, setPersonnelID] = useState<number>(-1);
@@ -55,10 +57,9 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
     onClose: personnelonClose,
   } = useDisclosure();
 
-  const [areaCoordinates, setAreaCoordinates] = useState<any>({
-    lat: 43.38,
-    lng: -80.14,
-  });
+  const [areaCoordinates, setAreaCoordinates] = useState<any>(
+    new_feed_area[0].coordinates
+  );
   const [markerList, setMarkerList] = useState<any[]>([]);
   const options = useMemo<MapOptions>(
     () => ({
@@ -73,13 +74,17 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
     height: "350px",
   };
 
+  const [eventData, setEventData] = useState<IEvent[]>(new_event_list);
+  const [personnelData, setPersonnelData] =
+    useState<INewPersonnel[]>(new_personnel_list);
+
   return (
     <>
       {currentFeed && currentFeed == "Personnels" && (
-        <PersonnelTable data={personnel_list} />
+        <PersonnelTable personnelData={personnelData} />
       )}
       {currentFeed && currentFeed == "Events" && (
-        <EventTable data={event_list} isLoaded={isLoaded} />
+        <EventTable eventData={eventData} isLoaded={isLoaded} />
       )}
       {currentFeed && currentFeed == "Communication" && (
         <>
@@ -100,12 +105,12 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
       {currentFeed && currentFeed == "Map visualiser" && (
         <Box px={5} py={5} borderWidth={1} rounded={10}>
           <Flex>
-            <Flex gap={4}>
-              {feedArea.map((area, key) => {
+            <Flex gap={2} flexWrap={"wrap"}>
+              {new_feed_area.map((area, key) => {
                 return (
                   <Flex
-                    px={4}
-                    py={1}
+                    px={3}
+                    py={2}
                     bgGradient={
                       currentView === area?.name
                         ? "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
@@ -172,7 +177,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                     mapContainerStyle={containerStyle}
                     center={areaCoordinates}
                     options={options}
-                    zoom={10}
+                    zoom={16}
                     onClick={(_) => {
                       if (newEvent) {
                         newEventonOpen();
@@ -184,7 +189,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                       }
                     }}
                   >
-                    {event_list.map((event, i) => (
+                    {eventData.map((event, i) => (
                       <MarkerF
                         position={event.coordinate}
                         onClick={newEventonOpen}
@@ -194,13 +199,22 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                         }}
                       />
                     ))}
+                    {personnelData.map((personnel, i) => (
+                      <MarkerF
+                        position={personnel.coordinate}
+                        icon={{
+                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
+                          scaledSize: new google.maps.Size(20, 20),
+                        }}
+                      />
+                    ))}
                     {markerList.map((x, i) => (
                       <MarkerF
                         position={x}
                         onClick={newEventonOpen}
                         icon={{
-                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
-                          scaledSize: new google.maps.Size(24, 24),
+                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
+                          scaledSize: new google.maps.Size(20, 20),
                         }}
                       />
                     ))}
@@ -214,27 +228,33 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                 <Text mb={2} fontSize={14}>
                   Nearby personnels
                 </Text>
-                <Flex flexDir={"row"} gap={3}>
-                  {personnel_list.map((personnel, key) => (
-                    <>
-                      <Box
-                        onClick={(_) => {
-                          personnelonOpen();
-                          setPersonnelID(key);
-                        }}
-                      >
-                        <FeedProfileCard data={personnel_list[key]} />
-                      </Box>
-                    </>
-                  ))}
-                </Flex>
+                {personnelData && (
+                  <Flex flexDir={"row"} gap={3}>
+                    {personnelData.map((personnel, key) => (
+                      <>
+                        {key < 3 && (
+                          <Box
+                            onClick={(_) => {
+                              personnelonOpen();
+                              setPersonnelID(key);
+                            }}
+                          >
+                            <FeedProfileCard data={personnelData[key]} />
+                          </Box>
+                        )}
+                      </>
+                    ))}
+                  </Flex>
+                )}
 
-                <ProfileModal
-                  isOpen={personnelisOpen}
-                  onOpen={personnelonOpen}
-                  onClose={personnelonClose}
-                  data={personnel_list[personnelID]}
-                />
+                {personnelData && (
+                  <ProfileModal
+                    isOpen={personnelisOpen}
+                    onOpen={personnelonOpen}
+                    onClose={personnelonClose}
+                    data={personnelData[personnelID]}
+                  />
+                )}
               </Flex>
             </Flex>
           </Flex>

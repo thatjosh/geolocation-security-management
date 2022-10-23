@@ -1,6 +1,7 @@
 import { Box, Flex, Text, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
-import { event_list } from "../../../../common/data/seed";
+import { new_event_list } from "../../../../common/data/seed2";
+import { IEvent } from "../../../../common/interface/interface";
 import EventCard from "./EventCard";
 import EventModal from "./EventModal";
 
@@ -16,6 +17,7 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
   } = useDisclosure();
 
   const [eventID, setEventID] = useState<number>(-1);
+  const [eventData, setEventData] = useState<IEvent[]>(new_event_list);
 
   return (
     <>
@@ -30,7 +32,7 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
         rounded={10}
       >
         <Text>Events</Text>
-        {event_list.map((event, key) => {
+        {eventData.map((event, key) => {
           return (
             <>
               {key < 3 && (
@@ -51,7 +53,7 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
             isOpen={eventisOpen}
             onOpen={eventonOpen}
             onClose={eventonClose}
-            data={event_list[eventID]}
+            data={eventData[eventID]}
           />
         )}
       </Flex>
