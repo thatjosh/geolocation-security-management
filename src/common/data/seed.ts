@@ -21,16 +21,6 @@ export const feedArea = [
   },
 ];
 
-export const guard_coordinates = [
-  { lat: 43.38, lng: -80.14 },
-  { lat: 43.48, lng: -80.24 },
-  { lat: 43.28, lng: -80.34 },
-  { lat: 43.39, lng: -80.24 },
-  { lat: 43.32, lng: -80.04 },
-];
-
-export const area_coordinates = [{}, {}, {}, {}];
-
 export const personnel_list = [
   {
     id: 247739,
@@ -67,6 +57,7 @@ export const event_list = [
     status: "open",
     coordinate: { lat: 43.38, lng: -80.14 },
     personnels_notified: [247739, 229740, 229741],
+    region: "Region 31",
   },
   {
     id: 475182,
@@ -75,6 +66,7 @@ export const event_list = [
     status: "resolved",
     coordinate: { lat: 43.48, lng: -80.24 },
     personnels_notified: [247739, 229741],
+    region: "Sunway Geo",
   },
   {
     id: 987654,
@@ -83,6 +75,7 @@ export const event_list = [
     status: "open",
     coordinate: { lat: 43.28, lng: -80.34 },
     personnels_notified: [],
+    region: "Sunway Geo",
   },
   {
     id: 327947,
@@ -91,6 +84,7 @@ export const event_list = [
     status: "open",
     coordinate: { lat: 43.28, lng: -80.34 },
     personnels_notified: [],
+    region: "Sunway Geo",
   },
   {
     id: 327948,
@@ -99,5 +93,6 @@ export const event_list = [
     status: "open",
     coordinate: { lat: 43.32, lng: -80.04 },
     personnels_notified: [],
+    region: "Sunway Pyramid",
   },
 ];

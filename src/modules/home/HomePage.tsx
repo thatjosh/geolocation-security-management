@@ -38,7 +38,12 @@ const HomePage: React.FC = () => {
         {!mobileView && (
           <>
             {isLoading && <ProfileSectionSkeleton />}
-            {!isLoading && <ProfileSection feedSwitch={handleFeedSwitch} />}
+            {!isLoading && (
+              <ProfileSection
+                feedSwitch={handleFeedSwitch}
+                currentFeed={currentFeed}
+              />
+            )}
           </>
         )}
 

@@ -30,7 +30,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
       >
         <Flex gap={2} flexDir={"column"}>
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
-            <Text fontSize={"20px"}>{`Personnel ${data?.id}`}</Text>
+            <Text fontSize={"20px"}>{`Personnel #${data?.id}`}</Text>
           </Flex>
 
           <Flex my={3} gap={2} flexDir={"column"}>
@@ -86,7 +86,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
               }}
               justifyContent={"center"}
             >
-              <Text fontSize={"12px"}>{"Edit"}</Text>
+              <Text fontSize={"12px"}>{"Edit details"}</Text>
               <BsFillCheckCircleFill />
             </Flex>
             <Flex

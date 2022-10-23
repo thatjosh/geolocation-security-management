@@ -7,9 +7,10 @@ import profilePhoto from "../../../../common/assets/profilePhoto.png";
 
 interface IProps {
   feedSwitch: (feedSwitch: string) => void;
+  currentFeed: string;
 }
 
-const ProfileSection: React.FC<IProps> = ({ feedSwitch }) => {
+const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
   const profileSection = [
     {
       title: "Map visualiser",
@@ -20,12 +21,12 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch }) => {
       icon: <BsPersonCheckFill />,
     },
     {
-      title: "Communication",
-      icon: <HiChat />,
-    },
-    {
       title: "Events",
       icon: <BsFillExclamationTriangleFill />,
+    },
+    {
+      title: "Communication",
+      icon: <HiChat />,
     },
   ];
 
@@ -53,7 +54,7 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch }) => {
           />
           <Flex flexDir={"column"} gap={1}>
             <Text>Control Centre 1</Text>
-            <Text fontSize={"10px"}>#e35decss</Text>
+            <Text fontSize={"10px"}>#E46b7d</Text>
           </Flex>
         </Flex>
       </Flex>
@@ -67,9 +68,10 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch }) => {
             rounded={10}
             px={5}
             py={3}
+            bgColor={currentFeed === section.title ? "#2b2b2e" : ""}
             _hover={{
               cursor: "pointer",
-              bgColor: "#1a1a1a",
+              bgColor: "#2b2b2e",
             }}
             onClick={() => feedSwitch(section.title)}
           >

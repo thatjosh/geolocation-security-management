@@ -19,4 +19,5 @@ export interface IEvent {
   status: string;
   coordinate: GMapsCoordinates;
   personnels_notified: number[];
+  region: string;
 }

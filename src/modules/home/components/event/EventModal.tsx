@@ -15,6 +15,7 @@ import { useMemo } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import { IEvent } from "../../../../common/interface/interface";
+import { getPersonnelsNotifiedString } from "../../../../common/utils/helper";
 
 interface IProps {
   isOpen: boolean;
@@ -46,25 +47,20 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
         height={"75vh"}
       >
         <Flex flexDir={"column"} my={2}>
-          <Text fontSize={"20px"}>{`Event`}</Text>
+          <Text fontSize={"20px"}>{`Event #${data?.id}`}</Text>
         </Flex>
 
         <Flex flexDir={"row"} gap={10}>
           <Flex gap={2} flexDir={"column"} width={"45%"}>
-            <Text fontSize={"14px"}>Event</Text>
-            <Input
-              fontSize={"14px"}
-              placeholder={data?.id.toString()}
-              _placeholder={{ color: "white" }}
-              isReadOnly={true}
-            />
-
             <Text fontSize={"14px"}>Severity level</Text>
             <Select
               fontSize={"14px"}
               placeholder={data?.severity_level}
               isReadOnly={true}
             ></Select>
+
+            <Text fontSize={"14px"}>{`Region`}</Text>
+            <Input fontSize={"14px"} value={data?.region} isReadOnly={true} />
 
             <Text fontSize={"14px"}>Maps</Text>
             <GoogleMap
@@ -87,30 +83,22 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
           </Flex>
           <Flex gap={2} flexDir={"column"} width={"45%"}>
             <Text fontSize={"14px"}>Status</Text>
-            <Input
-              fontSize={"14px"}
-              placeholder={data?.status}
-              value={data?.status}
-              _placeholder={{ color: "white" }}
-              isReadOnly={true}
-            />
+            <Input fontSize={"14px"} value={data?.status} isReadOnly={true} />
 
             <Text fontSize={"14px"}>Personnels notified</Text>
-            <Input
-              fontSize={"14px"}
-              placeholder={JSON.stringify(data?.personnels_notified)}
-              value={JSON.stringify(data?.personnels_notified)}
-              _placeholder={{ color: "white" }}
-              isReadOnly={true}
-            />
+            {data?.personnels_notified && (
+              <Input
+                fontSize={"14px"}
+                value={getPersonnelsNotifiedString(data?.personnels_notified)}
+                isReadOnly={true}
+              />
+            )}
 
             <Text fontSize={"14px"}>Event details</Text>
             <Textarea
               fontSize={"14px"}
               minHeight={"150px"}
-              placeholder={data?.details}
               value={data?.details}
-              _placeholder={{ color: "white" }}
               isReadOnly={true}
             />
           </Flex>
@@ -135,7 +123,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
             }}
             justifyContent={"center"}
           >
-            <Text fontSize={"12px"}>{"Edit"}</Text>
+            <Text fontSize={"12px"}>{"Edit details"}</Text>
             <BsFillCheckCircleFill />
           </Flex>
           <Flex

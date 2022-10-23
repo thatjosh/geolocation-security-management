@@ -13,9 +13,8 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import {
-  event_list,
   feedArea,
-  guard_coordinates,
+  event_list,
   personnel_list,
 } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
@@ -185,9 +184,9 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                       }
                     }}
                   >
-                    {guard_coordinates.map((x, i) => (
+                    {event_list.map((event, i) => (
                       <MarkerF
-                        position={x}
+                        position={event.coordinate}
                         onClick={newEventonOpen}
                         icon={{
                           url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",

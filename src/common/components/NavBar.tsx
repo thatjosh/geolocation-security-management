@@ -10,15 +10,15 @@ import {
   useColorMode,
 } from "@chakra-ui/react";
 
-// import logo from "../assets/{logo}.png";
+import { RiUserLocationFill } from "react-icons/ri";
 
 const NavBar: React.FC = () => {
   return (
     <Box>
       <Flex px={20} py={6} bgColor={"#1a1b1e"} justifyContent={"center"}>
-        <Flex>
-          <Text>Geolocation Security Management</Text>
-          {/* <Image src={logo} filter={"invert(1)"} maxWidth={"100px"} /> */}
+        <Flex gap={2} alignItems={"center"} justifyContent={"center"}>
+          <RiUserLocationFill size={30} />
+          <Text fontWeight={500}>Geolocation Security Management</Text>
         </Flex>
         <Spacer />
         <Grid templateColumns="repeat(2, 1fr)" gap={5}>
