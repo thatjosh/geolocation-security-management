@@ -204,7 +204,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                         position={personnel.coordinate}
                         icon={{
                           url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
-                          scaledSize: new google.maps.Size(20, 20),
+                          scaledSize: new google.maps.Size(15, 15),
                         }}
                       />
                     ))}
