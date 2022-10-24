@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiShow } from "react-icons/bi";
-import { IoMdMore } from "react-icons/Io";
+import { IoMdMore } from "react-icons/io";
 import { INewPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
 import ProfileModal from "../ProfileModal";

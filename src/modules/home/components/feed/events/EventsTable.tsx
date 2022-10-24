@@ -12,7 +12,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { BiShow } from "react-icons/bi";
-import { IoMdMore } from "react-icons/Io";
+import { IoMdMore } from "react-icons/io";
 import { IEvent } from "../../../../../common/interface/interface";
 import EventModal from "../../event/EventModal";
 import { useState } from "react";

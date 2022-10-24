@@ -16,7 +16,7 @@ import { feedArea, event_list } from "../../../../common/data/seed";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo } from "react";
 import FeedProfileCard from "./FeedProfileCard";
-import { IoMdAddCircle } from "react-icons/Io";
+import { IoMdAddCircle } from "react-icons/io";
 import { MdOutlineConstruction } from "react-icons/md";
 import { MdCancel } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
