@@ -13,19 +13,52 @@ import {
   BsFillExclamationTriangleFill,
 } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
-
+import {
+  GMapsCoordinates,
+  IEvent,
+} from "../../../../common/interface/interface";
+import { useState, useRef } from "react";
 interface IProps {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
+  handleAddingEvent: (event: IEvent) => void; // to remove after integrating API
+  currentCoordinate: GMapsCoordinates;
 }
 
-const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
+const InsertNewEventForm: React.FC<IProps> = ({
+  isOpen,
+  onOpen,
+  onClose,
+  handleAddingEvent,
+  currentCoordinate,
+}) => {
+  // To replace with useContext
+  const event_detail_ref = useRef<HTMLTextAreaElement>(null);
+  const severity_level_ref = useRef<HTMLSelectElement>(null);
+  const region_ref = useRef<HTMLSelectElement>(null);
+  const [formDate, setFormData] = useState<IEvent>();
+  const handleCompilingFormData = () => {
+    const event_detail = event_detail_ref?.current?.value;
+
+    if (event_detail_ref && severity_level_ref) {
+      const data: IEvent = {
+        id: 1,
+        details: event_detail_ref?.current?.value!,
+        severity_level: severity_level_ref?.current?.value!,
+        status: "open",
+        coordinate: currentCoordinate,
+        personnels_notified: [],
+        region: region_ref?.current?.value!,
+      };
+      handleAddingEvent(data); // Deep copy
+      onClose();
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay
-      // backdropFilter="blur(20px)"
-      />
+      <ModalOverlay />
       <ModalContent
         width={"80%"}
         rounded={"md"}
@@ -39,14 +72,20 @@ const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
             <BsFillExclamationTriangleFill />
           </Flex>
 
-          <Text fontSize={"14px"}>Event name</Text>
-          <Input fontSize={"14px"} placeholder="Event name" />
+          <Text fontSize={"14px"}>Region</Text>
+          <Select fontSize={"14px"} ref={region_ref}>
+            <option value="Bandar Sunway">Bandar Sunway</option>
+            <option value="Sunway Geo">Sunway Geo</option>
+            <option value="Sunway Pyramid">Sunway Pyramid</option>
+            <option value="Sunway South Quay">Sunway South Quay</option>
+            <option value="Sunway Lagoon">Sunway Lagoon</option>
+          </Select>
 
           <Text fontSize={"14px"}>Severity level</Text>
-          <Select fontSize={"14px"} placeholder="Choose severity level">
-            <option value="option1">Low</option>
-            <option value="option2">Mid</option>
-            <option value="option3">High</option>
+          <Select fontSize={"14px"} ref={severity_level_ref}>
+            <option value="high">High</option>
+            <option value="mid">Mid</option>
+            <option value="low">Low</option>
           </Select>
 
           <Text fontSize={"14px"}>Alert nearby personnels (up to 3km)</Text>
@@ -56,7 +95,11 @@ const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
           </Select>
 
           <Text fontSize={"14px"}>Event details</Text>
-          <Textarea fontSize={"14px"} placeholder="Insert details" />
+          <Textarea
+            fontSize={"14px"}
+            placeholder="Insert details"
+            ref={event_detail_ref}
+          />
           <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
             <Flex
               width={"50%"}
@@ -71,8 +114,9 @@ const InsertNewEventForm: React.FC<IProps> = ({ isOpen, onOpen, onClose }) => {
                 cursor: "pointer",
               }}
               justifyContent={"center"}
+              onClick={() => handleCompilingFormData()}
             >
-              <Text fontSize={"12px"}>{"Submit"}</Text>
+              <Text fontSize={"12px"}>{"Add event"}</Text>
               <BsFillCheckCircleFill />
             </Flex>
             <Flex

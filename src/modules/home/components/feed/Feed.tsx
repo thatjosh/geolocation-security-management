@@ -28,7 +28,13 @@ import {
   new_feed_area,
   new_personnel_list,
 } from "../../../../common/data/seed2";
-import { IEvent, INewPersonnel } from "../../../../common/interface/interface";
+import {
+  GMapsCoordinates,
+  IEvent,
+  INewPersonnel,
+} from "../../../../common/interface/interface";
+import { useEffect } from "react";
+import EventModal from "../event/EventModal";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -41,26 +47,34 @@ interface IProps {
 
 const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
   const [currentView, setCurrentView] = useState<string>(new_feed_area[0].name);
+
+  const [personnelData, setPersonnelData] =
+    useState<INewPersonnel[]>(new_personnel_list);
+
   const [newEvent, setNewEvent] = useState<boolean>();
-
-  const [personnelID, setPersonnelID] = useState<number>(-1);
-
   const {
     isOpen: newEventisOpen,
     onOpen: newEventonOpen,
     onClose: newEventonClose,
   } = useDisclosure();
 
+  const [personnelID, setPersonnelID] = useState<number>(-1);
   const {
     isOpen: personnelisOpen,
     onOpen: personnelonOpen,
     onClose: personnelonClose,
   } = useDisclosure();
 
+  const [eventID, setEventID] = useState<number>(-1);
+  const {
+    isOpen: eventisOpen,
+    onOpen: eventonOpen,
+    onClose: eventonClose,
+  } = useDisclosure();
+
   const [areaCoordinates, setAreaCoordinates] = useState<any>(
     new_feed_area[0].coordinates
   );
-  const [markerList, setMarkerList] = useState<any[]>([]);
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "b181cac70f27f5e6",
@@ -75,8 +89,15 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
   };
 
   const [eventData, setEventData] = useState<IEvent[]>(new_event_list);
-  const [personnelData, setPersonnelData] =
-    useState<INewPersonnel[]>(new_personnel_list);
+  const [currentCoordinate, setCurrentCoordinate] = useState<GMapsCoordinates>({
+    lat: 0,
+    lng: 0,
+  });
+  const handleAddingEvent = (event: IEvent) => {
+    const oldData = [...eventData];
+    oldData.push(event);
+    setEventData(oldData); // Deep copy
+  };
 
   return (
     <>
@@ -167,6 +188,8 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
             isOpen={newEventisOpen}
             onOpen={newEventonOpen}
             onClose={newEventonClose}
+            handleAddingEvent={handleAddingEvent}
+            currentCoordinate={currentCoordinate}
           />
 
           <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
@@ -180,35 +203,40 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                     zoom={16}
                     onClick={(_) => {
                       if (newEvent) {
-                        newEventonOpen();
-                        setMarkerList(
-                          markerList.concat(
-                            JSON.parse(JSON.stringify(_.latLng))
-                          )
+                        setCurrentCoordinate(
+                          JSON.parse(JSON.stringify(_.latLng))
                         );
+                        newEventonOpen();
                       }
                     }}
                   >
-                    {eventData.map((event, i) => (
+                    {eventData.map((event, key) => (
                       <MarkerF
                         position={event.coordinate}
-                        onClick={newEventonOpen}
+                        onClick={(_) => {
+                          setEventID(key);
+                          eventonOpen();
+                        }}
                         icon={{
                           url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
                           scaledSize: new google.maps.Size(28, 28),
                         }}
                       />
                     ))}
-                    {personnelData.map((personnel, i) => (
+                    {personnelData.map((personnel, key) => (
                       <MarkerF
                         position={personnel.coordinate}
+                        onClick={(_) => {
+                          setPersonnelID(key);
+                          personnelonOpen();
+                        }}
                         icon={{
                           url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
                           scaledSize: new google.maps.Size(15, 15),
                         }}
                       />
                     ))}
-                    {markerList.map((x, i) => (
+                    {/* {markerList.map((x, i) => (
                       <MarkerF
                         position={x}
                         onClick={newEventonOpen}
@@ -217,8 +245,14 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                           scaledSize: new google.maps.Size(20, 20),
                         }}
                       />
-                    ))}
+                    ))} */}
                   </GoogleMap>
+                  <EventModal
+                    isOpen={eventisOpen}
+                    onOpen={eventonOpen}
+                    onClose={eventonClose}
+                    data={eventData[eventID]}
+                  />
                 </>
               )}
 
@@ -230,19 +264,15 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                 </Text>
                 {personnelData && (
                   <Flex flexDir={"row"} gap={3}>
-                    {personnelData.map((personnel, key) => (
-                      <>
-                        {key < 3 && (
-                          <Box
-                            onClick={(_) => {
-                              personnelonOpen();
-                              setPersonnelID(key);
-                            }}
-                          >
-                            <FeedProfileCard data={personnelData[key]} />
-                          </Box>
-                        )}
-                      </>
+                    {personnelData.slice(0, 3).map((personnel, key) => (
+                      <Box
+                        onClick={(_) => {
+                          personnelonOpen();
+                          setPersonnelID(key);
+                        }}
+                      >
+                        <FeedProfileCard data={personnelData[key]} />
+                      </Box>
                     ))}
                   </Flex>
                 )}

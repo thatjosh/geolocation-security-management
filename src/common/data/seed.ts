@@ -52,8 +52,8 @@ export const event_list = [
   {
     id: 784562,
     details:
-      "Two burglars broke into the gadget warehouse and stole four tablets.",
-    severity_level: "mid",
+      "Two burglars broke into the gadget warehouse and stole fourty tablets.",
+    severity_level: "high",
     status: "open",
     coordinate: { lat: 43.38, lng: -80.14 },
     personnels_notified: [247739, 229740, 229741],

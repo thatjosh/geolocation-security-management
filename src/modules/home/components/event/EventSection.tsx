@@ -31,23 +31,22 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
         borderWidth={1}
         rounded={10}
       >
-        <Text>Events</Text>
-        {eventData.map((event, key) => {
-          return (
-            <>
-              {key < 3 && (
+        <Text>New events</Text>
+        {eventData &&
+          eventData.slice(0, 3).map((event, key) => {
+            return (
+              <>
                 <Box onClick={() => setEventID(key)}>
                   <EventCard
                     onOpen={eventonOpen}
                     severity={event?.severity_level}
                     id={event?.id}
-                    region={"Sunway Malls"}
+                    region={event.region}
                   />
                 </Box>
-              )}
-            </>
-          );
-        })}
+              </>
+            );
+          })}
         {isLoaded && (
           <EventModal
             isOpen={eventisOpen}
