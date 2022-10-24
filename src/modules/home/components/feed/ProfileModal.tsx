@@ -5,9 +5,11 @@ import {
   ModalContent,
   ModalOverlay,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
+import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
 import {
   INewPersonnel,
   IPersonnel,
@@ -21,6 +23,8 @@ interface IProps {
 }
 
 const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
+  const toast = useToast();
+
   return (
     <>
       {data && (
@@ -75,9 +79,16 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                     "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
                   }
                   _hover={{
-                    cursor: "pointer",
+                    cursor: "not-allowed",
                   }}
                   justifyContent={"center"}
+                  onClick={() =>
+                    toast({
+                      position: "bottom",
+                      duration: 2000,
+                      render: () => <FeatureNotYetAvaialble />,
+                    })
+                  }
                 >
                   <Text fontSize={"12px"}>{"Edit details"}</Text>
                   <BsFillCheckCircleFill />

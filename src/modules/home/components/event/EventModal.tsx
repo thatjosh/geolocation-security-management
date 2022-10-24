@@ -9,14 +9,15 @@ import {
   Spacer,
   Text,
   Textarea,
+  useToast,
 } from "@chakra-ui/react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useMemo } from "react";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
+import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
 import { IEvent } from "../../../../common/interface/interface";
 import { getPersonnelsNotifiedString } from "../../../../common/utils/helper";
-
 interface IProps {
   isOpen: boolean;
   onOpen: () => void;
@@ -27,6 +28,8 @@ interface IProps {
 type MapOptions = google.maps.MapOptions;
 
 const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
+  const toast = useToast();
+
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "b181cac70f27f5e6",
@@ -120,9 +123,16 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
               "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
             }
             _hover={{
-              cursor: "pointer",
+              cursor: "not-allowed",
             }}
             justifyContent={"center"}
+            onClick={() =>
+              toast({
+                position: "bottom",
+                duration: 2000,
+                render: () => <FeatureNotYetAvaialble />,
+              })
+            }
           >
             <Text fontSize={"12px"}>{"Edit details"}</Text>
             <BsFillCheckCircleFill />

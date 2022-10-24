@@ -84,7 +84,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
     []
   );
   const containerStyle = {
-    width: "700px",
+    width: "100%",
     height: "350px",
   };
 
@@ -196,7 +196,14 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
           />
 
           <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
-            <Flex flexDir={"row"} flexWrap={"wrap"} gap={3} py={5}>
+            <Flex
+              flexDir={"row"}
+              flexWrap={"wrap"}
+              gap={3}
+              py={5}
+              px={3}
+              width={[350, 450, 550, 650, 800]}
+            >
               {isLoaded && (
                 <>
                   <GoogleMap
@@ -266,7 +273,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                   Nearby personnels
                 </Text>
                 {personnelData && (
-                  <Flex flexDir={"row"} gap={3}>
+                  <Flex flexDir={"row"} gap={3} flexWrap={"wrap"}>
                     {personnelData.slice(0, 3).map((personnel, key) => (
                       <Box
                         onClick={(_) => {

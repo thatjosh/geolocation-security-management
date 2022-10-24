@@ -1,4 +1,10 @@
-import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  Flex,
+  useColorMode,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import NavBar from "../../common/components/NavBar";
 import Feed from "./components/feed/Feed";
 import useMobileViewToggle from "../../common/utils/useMobileViewToggle";
@@ -23,7 +29,7 @@ const HomePage: React.FC = () => {
     setCurrentFeed(feedSwitch);
   };
 
-  const { colorMode, toggleColorMode } = useColorMode();
+  const [isLargerThan1080] = useMediaQuery("(min-width: 1080px)");
 
   return (
     <>
@@ -50,12 +56,12 @@ const HomePage: React.FC = () => {
           </>
         )}
 
-        <Box width={[650, 550, 650, 750]}>
+        <Box width={[550, 650, 800]}>
           {isLoading && <FeedSkeleton />}
           {!isLoading && <Feed isLoaded={isLoaded} currentFeed={currentFeed} />}
         </Box>
 
-        {!mobileView && (
+        {!mobileView && isLargerThan1080 && (
           <>
             {isLoading && <EventSectionSkeleton />}
             {!isLoading && <EventSection isLoaded={isLoaded} />}

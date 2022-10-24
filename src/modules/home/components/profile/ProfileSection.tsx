@@ -32,9 +32,9 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
 
   return (
     <Flex flexDir={"column"} gap={2}>
-      <Flex width={250} flexDir={"column"} gap={5}>
+      <Flex width={230} flexDir={"column"}>
         <Flex
-          gap={5}
+          gap={3}
           alignItems={"center"}
           borderWidth={1}
           rounded={10}
@@ -58,7 +58,7 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
           </Flex>
         </Flex>
       </Flex>
-      <Flex width={250} color={"white"} flexDir={"column"} gap={2}>
+      <Flex width={230} color={"white"} flexDir={"column"} gap={2}>
         {profileSection.map((section, i) => (
           <Flex
             gap={3}

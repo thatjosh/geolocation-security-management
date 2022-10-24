@@ -6,7 +6,7 @@ const NavBar: React.FC = () => {
   return (
     <Box>
       <Flex
-        px={20}
+        px={"50px"}
         py={6}
         bgColor={"#1a1b1e"}
         justifyContent={"center"}
