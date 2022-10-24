@@ -1,6 +1,6 @@
 import { Flex, Image, Text } from "@chakra-ui/react";
 import { BsPersonCheckFill } from "react-icons/bs";
-import { HiChat } from "react-icons/Hi";
+import { HiChat } from "react-icons/hi";
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { BsFillExclamationTriangleFill } from "react-icons/bs";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
