@@ -37,6 +37,7 @@ const EventCard: React.FC<IProps> = ({ onOpen, severity, id, region }) => {
         cursor: "pointer",
       }}
       onClick={onOpen}
+      color={"white"}
     >
       {/* <Box
         rounded={"md"}

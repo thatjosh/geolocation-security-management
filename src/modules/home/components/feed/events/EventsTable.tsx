@@ -34,7 +34,7 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
   return (
     <>
       {eventData && (
-        <Box px={5} py={5} borderWidth={1} rounded={10}>
+        <Box px={5} py={5} borderWidth={1} rounded={10} color={"white"}>
           <>
             <Text fontSize={"20px"} mb={2}>
               Events
@@ -43,12 +43,12 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
               <Table size="sm">
                 <Thead>
                   <Tr>
-                    <Th>#</Th>
-                    <Th>Event ID</Th>
-                    <Th>Severity level</Th>
-                    <Th>Status</Th>
-                    <Th>Region</Th>
-                    <Th>More</Th>
+                    <Th color={"white"}>#</Th>
+                    <Th color={"white"}>Event ID</Th>
+                    <Th color={"white"}>Severity level</Th>
+                    <Th color={"white"}>Status</Th>
+                    <Th color={"white"}>Region</Th>
+                    <Th color={"white"}>More</Th>
                   </Tr>
                 </Thead>
                 <Tbody>

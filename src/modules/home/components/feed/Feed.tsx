@@ -117,6 +117,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
             py={20}
             borderWidth={1}
             rounded={10}
+            color={"#f3f3f3"}
           >
             <MdOutlineConstruction size={50} />
             <Text>Feature is under development</Text>
@@ -147,6 +148,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                       setCurrentView(area.name);
                       setAreaCoordinates(area.coordinates);
                     }}
+                    color={"white"}
                   >
                     <Text fontSize={"12px"}>{area.name}</Text>
                   </Flex>
@@ -168,6 +170,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                 cursor: "pointer",
               }}
               onClick={() => setNewEvent(!newEvent)}
+              color={"#f3f3f3"}
             >
               {!newEvent && (
                 <>
@@ -258,7 +261,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
 
               <Flex width={"100%"}></Flex>
 
-              <Flex flexDir={"column"} gap={1}>
+              <Flex color={"white"} flexDir={"column"} gap={1}>
                 <Text mb={2} fontSize={14}>
                   Nearby personnels
                 </Text>

@@ -32,7 +32,7 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
 
   return (
     <>
-      <Box px={5} py={5} borderWidth={1} rounded={10}>
+      <Box px={5} py={5} borderWidth={1} rounded={10} color={"white"}>
         <Box
           maxHeight={600}
           overflowY="auto"
@@ -57,13 +57,13 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
             <Table size="sm">
               <Thead>
                 <Tr>
-                  <Th>#</Th>
-                  <Th>Personnel ID</Th>
-                  <Th>Name</Th>
-                  <Th>Status</Th>
-                  <Th>Region</Th>
-                  <Th>Rank</Th>
-                  <Th>More</Th>
+                  <Th color={"white"}>#</Th>
+                  <Th color={"white"}>Personnel ID</Th>
+                  <Th color={"white"}>Name</Th>
+                  <Th color={"white"}>Status</Th>
+                  <Th color={"white"}>Region</Th>
+                  <Th color={"white"}>Rank</Th>
+                  <Th color={"white"}>More</Th>
                 </Tr>
               </Thead>
               <Tbody>

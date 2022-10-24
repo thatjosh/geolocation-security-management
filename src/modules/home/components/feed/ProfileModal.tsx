@@ -32,6 +32,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
             bgColor={"#333333"}
             px={10}
             py={50}
+            color={"white"}
           >
             <Flex gap={2} flexDir={"column"}>
               <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>

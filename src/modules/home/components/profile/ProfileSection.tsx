@@ -52,13 +52,13 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
             objectFit={"cover"}
             src={profilePhoto}
           />
-          <Flex flexDir={"column"} gap={1}>
+          <Flex color={"white"} flexDir={"column"} gap={1}>
             <Text>Control Centre 1</Text>
             <Text fontSize={"10px"}>#E46b7d</Text>
           </Flex>
         </Flex>
       </Flex>
-      <Flex width={250} flexDir={"column"} gap={2}>
+      <Flex width={250} color={"white"} flexDir={"column"} gap={2}>
         {profileSection.map((section, i) => (
           <Flex
             gap={3}

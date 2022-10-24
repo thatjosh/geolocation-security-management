@@ -21,6 +21,7 @@ const FeedProfileCard: React.FC<IProps> = ({ data }) => {
             transform: "scale(1.1)",
             cursor: "pointer",
           }}
+          color={"white"}
         >
           <Image
             rounded={"md"}

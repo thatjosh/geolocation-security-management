@@ -45,6 +45,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
         py={5}
         width={"70vw"}
         height={"75vh"}
+        color={"white"}
       >
         <Flex flexDir={"column"} my={2}>
           <Text fontSize={"20px"}>{`Event #${data?.id}`}</Text>

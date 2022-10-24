@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Button, Flex, useColorMode } from "@chakra-ui/react";
 import NavBar from "../../common/components/NavBar";
 import Feed from "./components/feed/Feed";
 import useMobileViewToggle from "../../common/utils/useMobileViewToggle";
@@ -23,6 +23,8 @@ const HomePage: React.FC = () => {
     setCurrentFeed(feedSwitch);
   };
 
+  const { colorMode, toggleColorMode } = useColorMode();
+
   return (
     <>
       <NavBar />
@@ -34,6 +36,7 @@ const HomePage: React.FC = () => {
         bgColor={"#141517"}
         justifyContent={"center"}
         gap={5}
+        minHeight={"90vh"}
       >
         {!mobileView && (
           <>
@@ -47,7 +50,7 @@ const HomePage: React.FC = () => {
           </>
         )}
 
-        <Box width={[650, 550, 650, 750]} minHeight={"85vh"}>
+        <Box width={[650, 550, 650, 750]}>
           {isLoading && <FeedSkeleton />}
           {!isLoading && <Feed isLoaded={isLoaded} currentFeed={currentFeed} />}
         </Box>

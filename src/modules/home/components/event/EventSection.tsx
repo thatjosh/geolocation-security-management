@@ -30,6 +30,7 @@ const EventSection: React.FC<IProps> = ({ isLoaded }) => {
         gap={4}
         borderWidth={1}
         rounded={10}
+        color={"#f3f3f3"}
       >
         <Text>New events</Text>
         {eventData &&

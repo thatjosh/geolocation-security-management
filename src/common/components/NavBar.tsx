@@ -1,24 +1,22 @@
-import {
-  Box,
-  Button,
-  Flex,
-  Grid,
-  GridItem,
-  Image,
-  Spacer,
-  Text,
-  useColorMode,
-} from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem, Spacer, Text } from "@chakra-ui/react";
 
 import { RiUserLocationFill } from "react-icons/ri";
 
 const NavBar: React.FC = () => {
   return (
     <Box>
-      <Flex px={20} py={6} bgColor={"#1a1b1e"} justifyContent={"center"}>
+      <Flex
+        px={20}
+        py={6}
+        bgColor={"#1a1b1e"}
+        justifyContent={"center"}
+        minHeight={"10vh"}
+      >
         <Flex gap={2} alignItems={"center"} justifyContent={"center"}>
-          <RiUserLocationFill size={30} />
-          <Text fontWeight={500}>Geolocation Security Management</Text>
+          <RiUserLocationFill color={"white"} size={30} />
+          <Text color={"white"} fontWeight={500}>
+            Geolocation Security Management
+          </Text>
         </Flex>
         <Spacer />
         <Grid templateColumns="repeat(2, 1fr)" gap={5}>
@@ -46,7 +44,6 @@ const NavBar: React.FC = () => {
           </GridItem>
         </Grid>
       </Flex>
-      {/* <Box height={"1px"} bgColor={"#808080"} width={"100%"}></Box> */}
     </Box>
   );
 };
