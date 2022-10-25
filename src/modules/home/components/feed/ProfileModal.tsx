@@ -10,7 +10,7 @@ import {
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
-import { IPersonnel, IPersonnel } from "../../../../common/interface/interface";
+import { IPersonnel } from "../../../../common/interface/interface";
 
 interface IProps {
   isOpen: boolean;

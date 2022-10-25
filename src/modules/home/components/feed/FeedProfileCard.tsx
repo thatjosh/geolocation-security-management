@@ -1,6 +1,6 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
-import { IPersonnel, IPersonnel } from "../../../../common/interface/interface";
+import { IPersonnel } from "../../../../common/interface/interface";
 import personnel from "../../../../common/assets/banner/personnel.png";
 interface IProps {
   data: IPersonnel;
