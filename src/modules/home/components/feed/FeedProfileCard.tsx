@@ -1,12 +1,9 @@
 import { Box, Flex, Image, Text } from "@chakra-ui/react";
 import profilePhoto from "../../../../common/assets/profilePhoto.png";
-import {
-  INewPersonnel,
-  IPersonnel,
-} from "../../../../common/interface/interface";
+import { IPersonnel, IPersonnel } from "../../../../common/interface/interface";
 import personnel from "../../../../common/assets/banner/personnel.png";
 interface IProps {
-  data: INewPersonnel;
+  data: IPersonnel;
 }
 
 const FeedProfileCard: React.FC<IProps> = ({ data }) => {

@@ -13,12 +13,12 @@ import {
 } from "@chakra-ui/react";
 import { BiShow } from "react-icons/bi";
 import { IoMdMore } from "react-icons/io";
-import { INewPersonnel } from "../../../../../common/interface/interface";
+import { IPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
 import ProfileModal from "../ProfileModal";
 
 interface IProps {
-  personnelData: INewPersonnel[];
+  personnelData: IPersonnel[];
 }
 
 const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {

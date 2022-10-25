@@ -16,7 +16,6 @@ import { IoMdMore } from "react-icons/io";
 import { IEvent } from "../../../../../common/interface/interface";
 import EventModal from "../../event/EventModal";
 import { useState } from "react";
-import { new_event_list } from "../../../../../common/data/seed2";
 interface IProps {
   eventData: IEvent[];
   isLoaded: boolean;

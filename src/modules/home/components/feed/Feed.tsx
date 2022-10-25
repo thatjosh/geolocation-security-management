@@ -1,18 +1,4 @@
-import {
-  Box,
-  Flex,
-  Spacer,
-  Table,
-  TableContainer,
-  Tbody,
-  Td,
-  Text,
-  Th,
-  Thead,
-  Tr,
-  useDisclosure,
-} from "@chakra-ui/react";
-import { feedArea, event_list } from "../../../../common/data/seed";
+import { Box, Flex, Spacer, Text, useDisclosure } from "@chakra-ui/react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo } from "react";
 import FeedProfileCard from "./FeedProfileCard";
@@ -23,17 +9,12 @@ import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
 import PersonnelTable from "./personnels/PersonnelTable";
 import EventTable from "./events/EventsTable";
-import {
-  new_event_list,
-  new_feed_area,
-  new_personnel_list,
-} from "../../../../common/data/seed2";
+import { new_feed_area } from "../../../../common/data/seed2";
 import {
   GMapsCoordinates,
   IEvent,
-  INewPersonnel,
+  IPersonnel,
 } from "../../../../common/interface/interface";
-import { useEffect } from "react";
 import EventModal from "../event/EventModal";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
@@ -43,13 +24,17 @@ type MapOptions = google.maps.MapOptions;
 interface IProps {
   isLoaded: boolean;
   currentFeed: string;
+  personnelListData: IPersonnel[];
+  eventListData: IEvent[];
 }
 
-const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
+const Feed: React.FC<IProps> = ({
+  isLoaded,
+  currentFeed,
+  personnelListData,
+  eventListData,
+}) => {
   const [currentView, setCurrentView] = useState<string>(new_feed_area[0].name);
-
-  const [personnelData, setPersonnelData] =
-    useState<INewPersonnel[]>(new_personnel_list);
 
   const [newEvent, setNewEvent] = useState<boolean>();
   const {
@@ -88,7 +73,9 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
     height: "350px",
   };
 
-  const [eventData, setEventData] = useState<IEvent[]>(new_event_list);
+  const [personnelData, setPersonnelData] =
+    useState<IPersonnel[]>(personnelListData);
+  const [eventData, setEventData] = useState<IEvent[]>(eventListData);
   const [currentCoordinate, setCurrentCoordinate] = useState<GMapsCoordinates>({
     lat: 0,
     lng: 0,
@@ -101,7 +88,7 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
 
   return (
     <>
-      {currentFeed && currentFeed == "Personnels" && (
+      {currentFeed && currentFeed == "Personnels" && personnelData && (
         <PersonnelTable personnelData={personnelData} />
       )}
       {currentFeed && currentFeed == "Events" && (
@@ -233,19 +220,20 @@ const Feed: React.FC<IProps> = ({ isLoaded, currentFeed }) => {
                         }}
                       />
                     ))}
-                    {personnelData.map((personnel, key) => (
-                      <MarkerF
-                        position={personnel.coordinate}
-                        onClick={(_) => {
-                          setPersonnelID(key);
-                          personnelonOpen();
-                        }}
-                        icon={{
-                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
-                          scaledSize: new google.maps.Size(15, 15),
-                        }}
-                      />
-                    ))}
+                    {personnelData &&
+                      personnelData.map((personnel, key) => (
+                        <MarkerF
+                          position={personnel.coordinate}
+                          onClick={(_) => {
+                            setPersonnelID(key);
+                            personnelonOpen();
+                          }}
+                          icon={{
+                            url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
+                            scaledSize: new google.maps.Size(15, 15),
+                          }}
+                        />
+                      ))}
                     {/* {markerList.map((x, i) => (
                       <MarkerF
                         position={x}

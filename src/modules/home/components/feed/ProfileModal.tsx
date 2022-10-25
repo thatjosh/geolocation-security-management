@@ -10,16 +10,13 @@ import {
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
-import {
-  INewPersonnel,
-  IPersonnel,
-} from "../../../../common/interface/interface";
+import { IPersonnel, IPersonnel } from "../../../../common/interface/interface";
 
 interface IProps {
   isOpen: boolean;
   onOpen: () => void;
   onClose: () => void;
-  data: INewPersonnel;
+  data: IPersonnel;
 }
 
 const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {

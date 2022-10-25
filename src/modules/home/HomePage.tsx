@@ -1,10 +1,4 @@
-import {
-  Box,
-  Button,
-  Flex,
-  useColorMode,
-  useMediaQuery,
-} from "@chakra-ui/react";
+import { Box, Flex, useMediaQuery } from "@chakra-ui/react";
 import NavBar from "../../common/components/NavBar";
 import Feed from "./components/feed/Feed";
 import useMobileViewToggle from "../../common/utils/useMobileViewToggle";
@@ -15,11 +9,26 @@ import ProfileSection from "./components/profile/ProfileSection";
 import { useJsApiLoader, useLoadScript } from "@react-google-maps/api";
 import ProfileSectionSkeleton from "./components/profile/ProfileSectionSkeleton";
 import { useState } from "react";
+import usePersonnelList from "../../common/data/hooks/usePersonnelList";
+import useEventList from "../../common/data/hooks/useEventList";
 
 const HomePage: React.FC = () => {
+  const {
+    data: personnel_data,
+    isLoading: personnel_isLoading,
+    isError: personnel_isError,
+  } = usePersonnelList();
+
+  const {
+    data: event_data,
+    isLoading: event_isLoading,
+    isError: event_isError,
+  } = useEventList();
+
   const mobileView = useMobileViewToggle();
+
   const isLoading = false;
-  const { isLoaded, loadError } = useJsApiLoader({
+  const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API,
     libraries: ["places"],
   });
@@ -57,14 +66,23 @@ const HomePage: React.FC = () => {
         )}
 
         <Box width={[550, 650, 800]}>
-          {isLoading && <FeedSkeleton />}
-          {!isLoading && <Feed isLoaded={isLoaded} currentFeed={currentFeed} />}
+          {personnel_isLoading && <FeedSkeleton />}
+          {!personnel_isLoading && event_data && personnel_data && (
+            <Feed
+              isLoaded={isLoaded}
+              currentFeed={currentFeed}
+              personnelListData={personnel_data}
+              eventListData={event_data}
+            />
+          )}
         </Box>
 
         {!mobileView && isLargerThan1080 && (
           <>
             {isLoading && <EventSectionSkeleton />}
-            {!isLoading && <EventSection isLoaded={isLoaded} />}
+            {!isLoading && event_data && (
+              <EventSection isLoaded={isLoaded} eventListData={event_data} />
+            )}
           </>
         )}
       </Flex>
