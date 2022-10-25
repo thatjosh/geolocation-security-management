@@ -27,7 +27,6 @@ const HomePage: React.FC = () => {
 
   const mobileView = useMobileViewToggle();
 
-  const isLoading = false;
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API,
     libraries: ["places"],
@@ -55,8 +54,8 @@ const HomePage: React.FC = () => {
       >
         {!mobileView && (
           <>
-            {isLoading && <ProfileSectionSkeleton />}
-            {!isLoading && (
+            {personnel_isLoading && <ProfileSectionSkeleton />}
+            {!personnel_isLoading && (
               <ProfileSection
                 feedSwitch={handleFeedSwitch}
                 currentFeed={currentFeed}
@@ -65,22 +64,22 @@ const HomePage: React.FC = () => {
           </>
         )}
 
-        <Box width={[550, 650, 800]}>
-          {personnel_isLoading && <FeedSkeleton />}
-          {!personnel_isLoading && event_data && personnel_data && (
+        {personnel_isLoading && <FeedSkeleton />}
+        {!personnel_isLoading && event_data && personnel_data && (
+          <Box width={[550, 650, 800]}>
             <Feed
               isLoaded={isLoaded}
               currentFeed={currentFeed}
               personnelListData={personnel_data}
               eventListData={event_data}
             />
-          )}
-        </Box>
+          </Box>
+        )}
 
         {!mobileView && isLargerThan1080 && (
           <>
-            {isLoading && <EventSectionSkeleton />}
-            {!isLoading && event_data && (
+            {event_isLoading && <EventSectionSkeleton />}
+            {!event_isLoading && event_data && (
               <EventSection isLoaded={isLoaded} eventListData={event_data} />
             )}
           </>
