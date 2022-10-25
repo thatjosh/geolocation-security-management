@@ -32,6 +32,8 @@ const HomePage: React.FC = () => {
     libraries: ["places"],
   });
 
+  console.log(import.meta.env.VITE_FIREBASE_CORE_SERVICE_URL);
+
   const [currentFeed, setCurrentFeed] = useState<string>("Map visualiser");
   const handleFeedSwitch = (feedSwitch: string) => {
     setCurrentFeed(feedSwitch);
