@@ -47,7 +47,6 @@ const HomePage: React.FC = () => {
 
   return (
     <>
-      {eventData && eventData[0].details}
       <NavBar />
       <Flex
         flexDir={"row"}

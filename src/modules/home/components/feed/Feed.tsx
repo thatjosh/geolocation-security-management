@@ -86,7 +86,6 @@ const Feed: React.FC<IProps> = ({
 
   return (
     <>
-      {eventListData && eventListData[0].details}
       {currentFeed && currentFeed == "Personnels" && personnelListData && (
         <PersonnelTable personnelData={personnelListData} />
       )}
