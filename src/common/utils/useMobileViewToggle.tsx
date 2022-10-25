@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useLocation } from "react-router";
+import { useEffect, useState } from "react";
 import useWindowDimensions from "./useWindowDimensions";
 
 const useMobileViewToggle = () => {

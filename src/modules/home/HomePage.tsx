@@ -8,22 +8,16 @@ import EventSectionSkeleton from "./components/event/EventSectionSkeleton";
 import ProfileSection from "./components/profile/ProfileSection";
 import { useJsApiLoader, useLoadScript } from "@react-google-maps/api";
 import ProfileSectionSkeleton from "./components/profile/ProfileSectionSkeleton";
-import { useState } from "react";
-import usePersonnelList from "../../common/data/hooks/usePersonnelList";
-import useEventList from "../../common/data/hooks/useEventList";
+import { useEffect, useState } from "react";
+import { onValue, ref } from "firebase/database";
+import { db } from "../../common/utils/firebase";
+import { IEvent, IPersonnel } from "../../common/interface/interface";
 
 const HomePage: React.FC = () => {
-  const {
-    data: personnel_data,
-    isLoading: personnel_isLoading,
-    isError: personnel_isError,
-  } = usePersonnelList();
-
-  const {
-    data: event_data,
-    isLoading: event_isLoading,
-    isError: event_isError,
-  } = useEventList();
+  const [personnelData, setPersonnelData] = useState<
+    IPersonnel[] | undefined
+  >();
+  const [eventData, setEventData] = useState<IEvent[] | undefined>();
 
   const mobileView = useMobileViewToggle();
 
@@ -32,8 +26,6 @@ const HomePage: React.FC = () => {
     libraries: ["places"],
   });
 
-  console.log(import.meta.env.VITE_FIREBASE_CORE_SERVICE_URL);
-
   const [currentFeed, setCurrentFeed] = useState<string>("Map visualiser");
   const handleFeedSwitch = (feedSwitch: string) => {
     setCurrentFeed(feedSwitch);
@@ -41,10 +33,22 @@ const HomePage: React.FC = () => {
 
   const [isLargerThan1080] = useMediaQuery("(min-width: 1080px)");
 
+  useEffect(() => {
+    const personnelQuery = ref(db, "personnel");
+    onValue(personnelQuery, (snapshot) => {
+      setPersonnelData(() => snapshot.val());
+    });
+
+    const eventQuery = ref(db, "event");
+    onValue(eventQuery, (snapshot) => {
+      setEventData(() => snapshot.val());
+    });
+  }, []);
+
   return (
     <>
+      {eventData && eventData[0].details}
       <NavBar />
-
       <Flex
         flexDir={"row"}
         px={20}
@@ -56,8 +60,8 @@ const HomePage: React.FC = () => {
       >
         {!mobileView && (
           <>
-            {personnel_isLoading && <ProfileSectionSkeleton />}
-            {!personnel_isLoading && (
+            {!personnelData && <ProfileSectionSkeleton />}
+            {personnelData && (
               <ProfileSection
                 feedSwitch={handleFeedSwitch}
                 currentFeed={currentFeed}
@@ -66,23 +70,23 @@ const HomePage: React.FC = () => {
           </>
         )}
 
-        {personnel_isLoading && <FeedSkeleton />}
-        {!personnel_isLoading && event_data && personnel_data && (
+        {!personnelData && <FeedSkeleton />}
+        {personnelData && eventData && personnelData && (
           <Box width={[550, 650, 800]}>
             <Feed
               isLoaded={isLoaded}
               currentFeed={currentFeed}
-              personnelListData={personnel_data}
-              eventListData={event_data}
+              personnelListData={personnelData}
+              eventListData={eventData}
             />
           </Box>
         )}
 
         {!mobileView && isLargerThan1080 && (
           <>
-            {event_isLoading && <EventSectionSkeleton />}
-            {!event_isLoading && event_data && (
-              <EventSection isLoaded={isLoaded} eventListData={event_data} />
+            {!eventData && <EventSectionSkeleton />}
+            {eventData && (
+              <EventSection isLoaded={isLoaded} eventListData={eventData} />
             )}
           </>
         )}
