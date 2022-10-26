@@ -16,6 +16,7 @@ import {
   IPersonnel,
 } from "../../../../common/interface/interface";
 import EventModal from "../event/EventModal";
+import { getDatabase, ref, update } from "firebase/database";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -72,16 +73,19 @@ const Feed: React.FC<IProps> = ({
     height: "350px",
   };
 
-  // const [eventData, setEventData] = useState<IEvent[]>(eventListData);
   const [currentCoordinate, setCurrentCoordinate] = useState<GMapsCoordinates>({
     lat: 0,
     lng: 0,
   });
 
   const handleAddingEvent = (event: IEvent) => {
-    // const oldData = [...eventData];
-    // oldData.push(event);
-    // setEventData(oldData); // Deep copy
+    const eventData = [...eventListData];
+    const db = getDatabase();
+    eventData.push(event);
+
+    const updates: any = {};
+    updates["event"] = eventData;
+    update(ref(db), updates);
   };
 
   return (
