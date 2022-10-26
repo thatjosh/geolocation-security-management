@@ -1,13 +1,6 @@
 import { Flex, Text } from "@chakra-ui/react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
-import { useMemo } from "react";
 import { IoMdAddCircle } from "react-icons/io";
 import { MdCancel } from "react-icons/md";
-import {
-  GMapsCoordinates,
-  IEvent,
-} from "../../../../../common/interface/interface";
-
 interface IProps {
   newEvent: boolean;
   setNewEvent: (event: boolean) => void;

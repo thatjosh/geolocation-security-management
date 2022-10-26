@@ -9,13 +9,14 @@ import {
   Spacer,
   Text,
   Textarea,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { GoogleMap, MarkerF } from "@react-google-maps/api";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { AiFillNotification } from "react-icons/ai";
 import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
-import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
 import { IEvent } from "../../../../common/interface/interface";
 import {
   capitaliseFirstChar,
@@ -33,6 +34,15 @@ type MapOptions = google.maps.MapOptions;
 const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
   const toast = useToast();
 
+  const [personnelNotification, setShowPersonnelNotification] =
+    useState<boolean>(false);
+
+  const {
+    isOpen: notificationisOpen,
+    onOpen: notificationonOpen,
+    onClose: notificationonClose,
+  } = useDisclosure();
+
   const options = useMemo<MapOptions>(
     () => ({
       mapId: "b181cac70f27f5e6",
@@ -41,6 +51,13 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
     }),
     []
   );
+
+  const notificationType = [
+    "Notify a particular personnel",
+    "Notify closest personnel",
+    "Notify all personnels within 5km radius",
+    "Notify all personnels within the region",
+  ];
   return (
     <>
       {data && (
@@ -126,27 +143,30 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
 
             <Flex gap={2} flexDir={"row"} alignItems={"center"} my={2}>
               <Flex
-                width={"15%"}
+                width={"20%"}
                 gap={2}
-                px={5}
+                px={2}
                 py={2}
                 rounded={"5px"}
                 bgGradient={
                   "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
                 }
                 _hover={{
-                  cursor: "not-allowed",
+                  cursor: "pointer",
                 }}
                 justifyContent={"center"}
-                onClick={() =>
-                  toast({
-                    position: "bottom",
-                    duration: 2000,
-                    render: () => <FeatureNotYetAvaialble />,
-                  })
+                onClick={
+                  () => {
+                    setShowPersonnelNotification(!personnelNotification);
+                    notificationonOpen();
+                  }
+                  //   position: "bottom",
+                  //   duration: 2000,
+                  //   render: () => <FeatureNotYetAvaialble />,
+                  // })
                 }
               >
-                <Text fontSize={"12px"}>{"Edit details"}</Text>
+                <Text fontSize={"12px"}>{"Notify personnel(s)"}</Text>
                 <BsFillCheckCircleFill />
               </Flex>
               <Flex
@@ -170,6 +190,54 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
           </ModalContent>
         </Modal>
       )}
+      <Modal
+        isOpen={notificationisOpen}
+        onClose={notificationonClose}
+        size={"6xl"}
+      >
+        <ModalOverlay />
+        <ModalContent
+          rounded={"md"}
+          bgColor={"#333333"}
+          mt={150}
+          width={"25vw"}
+          height={"45vh"}
+          color={"white"}
+          alignItems={"center"}
+          justifyContent={"center"}
+        >
+          <Flex flexDir={"row"} my={2} alignItems={"center"} gap={2}>
+            <AiFillNotification size={24} />
+            <Text fontSize={"20px"}>{`Send Push Notification`}</Text>
+          </Flex>
+
+          <Flex flexDir={"column"} gap={2} mt={2}>
+            {notificationType.map((notification) => {
+              return (
+                <Flex
+                  gap={2}
+                  width={"100%"}
+                  px={8}
+                  py={2}
+                  rounded={"5px"}
+                  borderWidth={1}
+                  borderColor={"#636363"}
+                  _hover={{
+                    cursor: "not-allowed",
+                    bgGradient:
+                      "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)",
+                    borderColor: "#3a3a3a",
+                  }}
+                  justifyContent={"center"}
+                  onClick={notificationonClose}
+                >
+                  <Text fontSize={"12px"}>{notification}</Text>
+                </Flex>
+              );
+            })}
+          </Flex>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

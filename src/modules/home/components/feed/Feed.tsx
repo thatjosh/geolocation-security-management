@@ -1,10 +1,7 @@
 import { Box, Flex, Spacer, Text, useDisclosure } from "@chakra-ui/react";
-import { GoogleMap, MarkerF } from "@react-google-maps/api";
 import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
-import { IoMdAddCircle } from "react-icons/io";
-import { MdOutlineConstruction } from "react-icons/md";
-import { MdCancel } from "react-icons/md";
+import { MdExpandMore, MdOutlineConstruction } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
 import ProfileModal from "./ProfileModal";
 import PersonnelTable from "./personnels/PersonnelTable";
@@ -23,11 +20,7 @@ import {
 } from "../../../../common/utils/helper";
 import NewEventButton from "./personnels/NewEventButton";
 import GMaps from "./map-visualiser/GMaps";
-
-type LatLngLiteral = google.maps.LatLngLiteral;
-type DirectionsResult = google.maps.DirectionsResult;
-type MapOptions = google.maps.MapOptions;
-
+import NearbyPersonnel from "./personnels/NearbyPersonnelModal";
 interface IProps {
   isLoaded: boolean;
   currentFeed: string;
@@ -73,18 +66,6 @@ const Feed: React.FC<IProps> = ({
   const [areaCoordinates, setAreaCoordinates] = useState<any>(
     new_feed_area[0].coordinates
   );
-  const options = useMemo<MapOptions>(
-    () => ({
-      mapId: "b181cac70f27f5e6",
-      disableDefaultUI: true,
-      clickableIcons: false,
-    }),
-    []
-  );
-  const containerStyle = {
-    width: "100%",
-    height: "350px",
-  };
 
   const [currentCoordinate, setCurrentCoordinate] = useState<GMapsCoordinates>({
     lat: 0,
@@ -101,10 +82,19 @@ const Feed: React.FC<IProps> = ({
     update(ref(db), updates);
   };
 
+  const {
+    isOpen: nearbyPersonnelisOpen,
+    onOpen: nearbyPersonnelonOpen,
+    onClose: nearbyPersonnelonClose,
+  } = useDisclosure();
+
   return (
     <>
       {currentFeed && currentFeed == "Personnels" && personnelListData && (
-        <PersonnelTable personnelData={personnelListData} />
+        <PersonnelTable
+          personnelData={personnelListData}
+          title={"Personnels"}
+        />
       )}
       {currentFeed && currentFeed == "Events" && (
         <EventTable eventData={eventListData} isLoaded={isLoaded} />
@@ -182,48 +172,6 @@ const Feed: React.FC<IProps> = ({
             >
               {isLoaded && (
                 <>
-                  {/* <GoogleMap
-                    mapContainerStyle={containerStyle}
-                    center={areaCoordinates}
-                    options={options}
-                    zoom={16}
-                    onClick={(_) => {
-                      if (newEvent) {
-                        setCurrentCoordinate(
-                          JSON.parse(JSON.stringify(_.latLng))
-                        );
-                        newEventonOpen();
-                      }
-                    }}
-                  >
-                    {eventListData.map((event, key) => (
-                      <MarkerF
-                        position={event.coordinate}
-                        onClick={(_) => {
-                          setEventID(key);
-                          eventonOpen();
-                        }}
-                        icon={{
-                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
-                          scaledSize: new google.maps.Size(28, 28),
-                        }}
-                      />
-                    ))}
-                    {personnelListData &&
-                      personnelListData.map((personnel, key) => (
-                        <MarkerF
-                          position={personnel.coordinate}
-                          onClick={(_) => {
-                            setPersonnelID(key);
-                            personnelonOpen();
-                          }}
-                          icon={{
-                            url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/personnel.png",
-                            scaledSize: new google.maps.Size(15, 15),
-                          }}
-                        />
-                      ))}
-                  </GoogleMap> */}
                   <GMaps
                     areaCoordinates={areaCoordinates}
                     eventListData={eventListData}
@@ -248,35 +196,64 @@ const Feed: React.FC<IProps> = ({
               <Flex width={"100%"}></Flex>
 
               <Flex color={"white"} flexDir={"column"} gap={1}>
-                <Text mb={2} fontSize={14}>
-                  Nearby personnels
+                <Text
+                  mb={2}
+                  fontSize={14}
+                  onClick={nearbyPersonnelonOpen}
+                  _hover={{
+                    cursor: "pointer",
+                  }}
+                >
+                  Nearby Personnels
                 </Text>
-                {personnelListData && (
-                  <Flex flexDir={"row"} gap={3} flexWrap={"wrap"}>
-                    {nearbyPersonnel.slice(0, 3).map((personnel, key) => (
-                      <Box
-                        onClick={(_) => {
-                          personnelonOpen();
-                          setPersonnelID(
-                            findPersonnelKey(personnel.id, personnelListData)
-                          );
-                        }}
-                      >
-                        <FeedProfileCard data={nearbyPersonnel[key]} />
-                      </Box>
-                    ))}
-                  </Flex>
-                )}
-
-                {personnelListData && (
-                  <ProfileModal
-                    isOpen={personnelisOpen}
-                    onOpen={personnelonOpen}
-                    onClose={personnelonClose}
-                    data={personnelListData[personnelID]}
+                <Flex alignItems={"center"}>
+                  {personnelListData && (
+                    <Flex flexDir={"row"} gap={3} flexWrap={"wrap"}>
+                      {nearbyPersonnel.slice(0, 3).map((personnel, key) => (
+                        <Box
+                          onClick={(_) => {
+                            personnelonOpen();
+                            setPersonnelID(
+                              findPersonnelKey(personnel.id, personnelListData)
+                            );
+                          }}
+                        >
+                          <FeedProfileCard data={nearbyPersonnel[key]} />
+                        </Box>
+                      ))}
+                    </Flex>
+                  )}
+                  <Box
+                    mx={3}
+                    px={1}
+                    rounded={"full"}
+                    bgColor={"#636363"}
+                    transition={"transform 0.8s"}
+                    _hover={{
+                      transform: "scale(1.3)",
+                      cursor: "pointer",
+                    }}
+                    onClick={nearbyPersonnelonOpen}
+                  >
+                    <MdExpandMore />
+                  </Box>
+                  <NearbyPersonnel
+                    nearbyPersonnelisOpen={nearbyPersonnelisOpen}
+                    nearbyPersonnelonOpen={nearbyPersonnelonOpen}
+                    nearbyPersonnelonClose={nearbyPersonnelonClose}
+                    personnelData={nearbyPersonnel}
                   />
-                )}
+                </Flex>
               </Flex>
+
+              {personnelListData && (
+                <ProfileModal
+                  isOpen={personnelisOpen}
+                  onOpen={personnelonOpen}
+                  onClose={personnelonClose}
+                  data={personnelListData[personnelID]}
+                />
+              )}
             </Flex>
           </Flex>
         </Box>
