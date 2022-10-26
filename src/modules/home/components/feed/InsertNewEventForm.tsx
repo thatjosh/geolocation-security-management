@@ -74,25 +74,57 @@ const InsertNewEventForm: React.FC<IProps> = ({
           </Flex>
 
           <Text fontSize={"14px"}>Region</Text>
-          <Select fontSize={"14px"} ref={region_ref}>
-            <option value="Bandar Sunway">Bandar Sunway</option>
-            <option value="Sunway Geo">Sunway Geo</option>
-            <option value="Sunway Pyramid">Sunway Pyramid</option>
-            <option value="Sunway South Quay">Sunway South Quay</option>
-            <option value="Sunway Lagoon">Sunway Lagoon</option>
+          <Select fontSize={"14px"} ref={region_ref} background={"#333333"}>
+            <option
+              value="Bandar Sunway"
+              style={{ backgroundColor: "#333333" }}
+            >
+              Bandar Sunway
+            </option>
+            <option value="Sunway Geo" style={{ backgroundColor: "#333333" }}>
+              Sunway Geo
+            </option>
+            <option
+              value="Sunway Pyramid"
+              style={{ backgroundColor: "#333333" }}
+            >
+              Sunway Pyramid
+            </option>
+            <option
+              value="Sunway South Quay"
+              style={{ backgroundColor: "#333333" }}
+            >
+              Sunway South Quay
+            </option>
+            <option
+              value="Sunway Lagoon"
+              style={{ backgroundColor: "#333333" }}
+            >
+              Sunway Lagoon
+            </option>
           </Select>
 
           <Text fontSize={"14px"}>Severity level</Text>
           <Select fontSize={"14px"} ref={severity_level_ref}>
-            <option value="high">High</option>
-            <option value="mid">Mid</option>
-            <option value="low">Low</option>
+            <option value="high" style={{ backgroundColor: "#333333" }}>
+              High
+            </option>
+            <option value="mid" style={{ backgroundColor: "#333333" }}>
+              Mid
+            </option>
+            <option value="low" style={{ backgroundColor: "#333333" }}>
+              Low
+            </option>
           </Select>
 
           <Text fontSize={"14px"}>Alert nearby personnels (up to 3km)</Text>
           <Select fontSize={"14px"}>
-            <option value="option2">Yes</option>
-            <option value="option3">No</option>
+            <option value="option2" style={{ backgroundColor: "#333333" }}>
+              Yes
+            </option>
+            <option value="option3" style={{ backgroundColor: "#333333" }}>
+              No
+            </option>
           </Select>
 
           <Text fontSize={"14px"}>Event details</Text>
