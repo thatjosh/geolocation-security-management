@@ -29,7 +29,7 @@ const EventCard: React.FC<IProps> = ({ onOpen, severity, id, region }) => {
   return (
     <Box
       rounded={"md"}
-      width={220}
+      width={200}
       height={"100px"}
       transition={"transform 0.8s"}
       _hover={{

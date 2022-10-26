@@ -104,8 +104,9 @@ const Feed: React.FC<IProps> = ({
             alignItems={"center"}
             justifyContent={"center"}
             py={20}
-            borderWidth={1}
             rounded={10}
+            borderWidth={1}
+            borderColor={"#3a3a3a"}
             color={"#f3f3f3"}
           >
             <MdOutlineConstruction size={50} />
@@ -114,7 +115,7 @@ const Feed: React.FC<IProps> = ({
         </>
       )}
       {currentFeed && currentFeed == "Map visualiser" && (
-        <Box px={5} py={5} borderWidth={1} rounded={10}>
+        <Box px={5} py={5} borderWidth={1} borderColor={"#3a3a3a"} rounded={10}>
           <Flex>
             <Flex gap={2} flexWrap={"wrap"}>
               {new_feed_area.map((area, key) => {

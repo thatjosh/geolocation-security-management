@@ -44,6 +44,7 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
           _hover={{
             cursor: "pointer",
           }}
+          borderColor={"#3a3a3a"}
         >
           <Image
             rounded={"full"}
@@ -65,6 +66,7 @@ const ProfileSection: React.FC<IProps> = ({ feedSwitch, currentFeed }) => {
             width={"100%"}
             alignItems={"center"}
             borderWidth={1}
+            borderColor={"#3a3a3a"}
             rounded={10}
             px={5}
             py={3}

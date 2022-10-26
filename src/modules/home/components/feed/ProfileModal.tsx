@@ -97,6 +97,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                   py={2}
                   rounded={"5px"}
                   borderWidth={1}
+                  borderColor={"#3a3a3a"}
                   _hover={{
                     cursor: "pointer",
                   }}

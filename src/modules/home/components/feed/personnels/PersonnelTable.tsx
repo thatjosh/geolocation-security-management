@@ -32,7 +32,14 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
 
   return (
     <>
-      <Box px={5} py={5} borderWidth={1} rounded={10} color={"white"}>
+      <Box
+        px={5}
+        py={5}
+        borderWidth={1}
+        borderColor={"#3a3a3a"}
+        rounded={10}
+        color={"white"}
+      >
         <Box
           maxHeight={600}
           overflowY="auto"

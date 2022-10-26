@@ -23,31 +23,34 @@ const EventSection: React.FC<IProps> = ({ isLoaded, eventListData }) => {
     <>
       <Flex
         height={"100%"}
-        width={260}
+        width={240}
         px={5}
         py={5}
         flexDir={"column"}
         gap={4}
         borderWidth={1}
+        borderColor={"#3a3a3a"}
         rounded={10}
         color={"#f3f3f3"}
       >
         <Text>New events</Text>
         {eventData &&
-          eventData.slice(0, 3).map((event, key) => {
-            return (
-              <>
-                <Box onClick={() => setEventID(key)}>
-                  <EventCard
-                    onOpen={eventonOpen}
-                    severity={event?.severity_level}
-                    id={event?.id}
-                    region={event.region}
-                  />
-                </Box>
-              </>
-            );
-          })}
+          eventData
+            .slice(eventData.length - 3, eventData.length)
+            .map((event, key) => {
+              return (
+                <>
+                  <Box onClick={() => setEventID(eventData.length + key - 3)}>
+                    <EventCard
+                      onOpen={eventonOpen}
+                      severity={event?.severity_level}
+                      id={event?.id}
+                      region={event.region}
+                    />
+                  </Box>
+                </>
+              );
+            })}
         {isLoaded && eventData && (
           <EventModal
             isOpen={eventisOpen}
