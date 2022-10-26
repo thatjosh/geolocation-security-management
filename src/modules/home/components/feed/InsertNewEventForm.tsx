@@ -24,6 +24,7 @@ interface IProps {
   onClose: () => void;
   handleAddingEvent: (event: IEvent) => void; // to remove after integrating API
   currentCoordinate: GMapsCoordinates;
+  latestIndex: number;
 }
 
 const InsertNewEventForm: React.FC<IProps> = ({
@@ -32,18 +33,17 @@ const InsertNewEventForm: React.FC<IProps> = ({
   onClose,
   handleAddingEvent,
   currentCoordinate,
+  latestIndex,
 }) => {
   // To replace with useContext
   const event_detail_ref = useRef<HTMLTextAreaElement>(null);
   const severity_level_ref = useRef<HTMLSelectElement>(null);
   const region_ref = useRef<HTMLSelectElement>(null);
-  const [formDate, setFormData] = useState<IEvent>();
-  const handleCompilingFormData = () => {
-    const event_detail = event_detail_ref?.current?.value;
 
+  const handleCompilingFormData = () => {
     if (event_detail_ref && severity_level_ref) {
       const data: IEvent = {
-        id: 1,
+        id: latestIndex + 1,
         details: event_detail_ref?.current?.value!,
         severity_level: severity_level_ref?.current?.value!,
         status: "open",
@@ -160,7 +160,7 @@ const InsertNewEventForm: React.FC<IProps> = ({
               py={2}
               rounded={"5px"}
               borderWidth={1}
-              borderColor={"#3a3a3a"}
+              borderColor={"#636363"}
               _hover={{
                 cursor: "pointer",
               }}

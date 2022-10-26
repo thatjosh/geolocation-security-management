@@ -21,6 +21,8 @@ import {
   findPersonnelKey,
   nearbyPersonnels,
 } from "../../../../common/utils/helper";
+import NewEventButton from "./personnels/NewEventButton";
+import GMaps from "./map-visualiser/GMaps";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -40,7 +42,7 @@ const Feed: React.FC<IProps> = ({
   eventListData,
 }) => {
   const [currentView, setCurrentView] = useState<string>(new_feed_area[0].name);
-  const [newEvent, setNewEvent] = useState<boolean>();
+  const [newEvent, setNewEvent] = useState<boolean>(false);
   const {
     isOpen: newEventisOpen,
     onOpen: newEventonOpen,
@@ -157,35 +159,7 @@ const Feed: React.FC<IProps> = ({
               })}
             </Flex>
             <Spacer />
-            <Flex
-              px={4}
-              py={1}
-              alignItems={"center"}
-              justifyContent={"center"}
-              gap={1}
-              rounded={"20px"}
-              bgGradient={
-                "linear-gradient(88.84deg, #E1306C 1.99%, #F77737 98.01%)"
-              }
-              _hover={{
-                cursor: "pointer",
-              }}
-              onClick={() => setNewEvent(!newEvent)}
-              color={"#f3f3f3"}
-            >
-              {!newEvent && (
-                <>
-                  <Text fontSize={"12px"}>{"Add event"}</Text>
-                  <IoMdAddCircle />
-                </>
-              )}
-              {newEvent && (
-                <>
-                  <Text fontSize={"12px"}>{"Cancel"}</Text>
-                  <MdCancel />
-                </>
-              )}
-            </Flex>
+            <NewEventButton newEvent={newEvent} setNewEvent={setNewEvent} />
           </Flex>
 
           <InsertNewEventForm
@@ -194,6 +168,7 @@ const Feed: React.FC<IProps> = ({
             onClose={newEventonClose}
             handleAddingEvent={handleAddingEvent}
             currentCoordinate={currentCoordinate}
+            latestIndex={eventListData[eventListData.length - 1].id}
           />
 
           <Flex flexDir={"row"} gap={1} justifyContent={"center"}>
@@ -207,7 +182,7 @@ const Feed: React.FC<IProps> = ({
             >
               {isLoaded && (
                 <>
-                  <GoogleMap
+                  {/* <GoogleMap
                     mapContainerStyle={containerStyle}
                     center={areaCoordinates}
                     options={options}
@@ -248,17 +223,19 @@ const Feed: React.FC<IProps> = ({
                           }}
                         />
                       ))}
-                    {/* {markerList.map((x, i) => (
-                      <MarkerF
-                        position={x}
-                        onClick={newEventonOpen}
-                        icon={{
-                          url: "https://raw.githubusercontent.com/thatjosh/z-public-images/main/red%20event.png",
-                          scaledSize: new google.maps.Size(20, 20),
-                        }}
-                      />
-                    ))} */}
-                  </GoogleMap>
+                  </GoogleMap> */}
+                  <GMaps
+                    areaCoordinates={areaCoordinates}
+                    eventListData={eventListData}
+                    personnelListData={personnelListData}
+                    setCurrentCoordinate={setCurrentCoordinate}
+                    eventonOpen={eventonOpen}
+                    newEvent={newEvent}
+                    newEventonOpen={newEventonOpen}
+                    setEventID={setEventID}
+                    setPersonnelID={setPersonnelID}
+                    personnelonOpen={personnelonOpen}
+                  />
                   <EventModal
                     isOpen={eventisOpen}
                     onOpen={eventonOpen}

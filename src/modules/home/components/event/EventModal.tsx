@@ -94,6 +94,7 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                   />
                 </GoogleMap>
               </Flex>
+
               <Flex gap={2} flexDir={"column"} width={"45%"}>
                 <Text fontSize={"14px"}>Status</Text>
                 <Input
@@ -103,15 +104,11 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                 />
 
                 <Text fontSize={"14px"}>Personnels notified</Text>
-                {data?.personnels_notified && (
-                  <Input
-                    fontSize={"14px"}
-                    value={getPersonnelsNotifiedString(
-                      data?.personnels_notified
-                    )}
-                    isReadOnly={true}
-                  />
-                )}
+                <Input
+                  fontSize={"14px"}
+                  value={getPersonnelsNotifiedString(data?.personnels_notified)}
+                  isReadOnly={true}
+                />
 
                 <Text fontSize={"14px"}>Event details</Text>
                 <Textarea

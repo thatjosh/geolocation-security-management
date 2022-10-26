@@ -19,8 +19,6 @@ const HomePage: React.FC = () => {
   >();
   const [eventData, setEventData] = useState<IEvent[] | undefined>();
 
-  const mobileView = useMobileViewToggle();
-
   const { isLoaded } = useJsApiLoader({
     googleMapsApiKey: import.meta.env.VITE_GOOGLE_API,
     libraries: ["places"],
@@ -32,6 +30,7 @@ const HomePage: React.FC = () => {
   };
 
   const [isLargerThan1080] = useMediaQuery("(min-width: 1080px)");
+  const [isLargerThan900] = useMediaQuery("(min-width: 900px)");
 
   useEffect(() => {
     const personnelQuery = ref(db, "personnel");
@@ -57,7 +56,7 @@ const HomePage: React.FC = () => {
         gap={5}
         minHeight={"90vh"}
       >
-        {!mobileView && (
+        {isLargerThan900 && (
           <>
             {!personnelData && <ProfileSectionSkeleton />}
             {personnelData && (
@@ -81,7 +80,7 @@ const HomePage: React.FC = () => {
           </Box>
         )}
 
-        {!mobileView && isLargerThan1080 && (
+        {isLargerThan900 && isLargerThan1080 && (
           <>
             {!eventData && <EventSectionSkeleton />}
             {eventData && (

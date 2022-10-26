@@ -1,12 +1,12 @@
 import { IPersonnel } from "../interface/interface";
 
-export function getPersonnelsNotifiedString(personnels: number[]) {
+export function getPersonnelsNotifiedString(personnels: number[] | undefined) {
   let txt_str = "Personnel ";
-  const len = personnels.length;
 
-  if (len === 0) {
+  if (!personnels) {
     return "No personnels notified yet";
   }
+  const len = personnels.length;
 
   personnels.map((personnel_id, key) => {
     let txt_tmp = "#" + personnel_id;
