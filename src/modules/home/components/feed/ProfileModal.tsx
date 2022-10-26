@@ -11,6 +11,7 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 import { MdCancel } from "react-icons/md";
 import FeatureNotYetAvaialble from "../../../../common/components/FeatureNotYetAvailableToast";
 import { IPersonnel } from "../../../../common/interface/interface";
+import { capitaliseFirstChar } from "../../../../common/utils/helper";
 
 interface IProps {
   isOpen: boolean;
@@ -50,7 +51,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                 <Text fontSize={"14px"}>Status</Text>
                 <Input
                   fontSize={"14px"}
-                  value={data?.status}
+                  value={capitaliseFirstChar(data?.status)}
                   isReadOnly={true}
                 />
                 <Text fontSize={"14px"}>Area</Text>
@@ -97,7 +98,7 @@ const ProfileModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                   py={2}
                   rounded={"5px"}
                   borderWidth={1}
-                  borderColor={"#3a3a3a"}
+                  borderColor={"#636363"}
                   _hover={{
                     cursor: "pointer",
                   }}

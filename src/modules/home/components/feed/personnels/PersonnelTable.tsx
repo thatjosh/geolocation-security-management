@@ -16,6 +16,8 @@ import { IoMdMore } from "react-icons/io";
 import { IPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
 import ProfileModal from "../ProfileModal";
+import { BsFillCircleFill } from "react-icons/bs";
+import { getPersonnelStatusColour } from "../../../../../common/utils/helper";
 
 interface IProps {
   personnelData: IPersonnel[];
@@ -80,7 +82,15 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
                       <Td>{key + 1}</Td>
                       <Td>{personnel.id}</Td>
                       <Td>{`${personnel.first_name} ${personnel.last_name_initial}.`}</Td>
-                      <Td>{personnel.status}</Td>
+                      <Td>
+                        <Flex flexDir={"row"} gap={2} alignItems={"center"}>
+                          <BsFillCircleFill
+                            size={6}
+                            color={getPersonnelStatusColour(personnel.status)}
+                          />
+                          {personnel.status}
+                        </Flex>
+                      </Td>
                       <Td>{personnel.region}</Td>
                       <Td>{personnel.rank}</Td>
                       <Td>
@@ -96,7 +106,9 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData }) => {
                               setPersonnelID(key);
                             }}
                           />
-                          <IoMdMore />
+                          <IoMdMore
+                            onClick={(event) => event.stopPropagation()}
+                          />
                         </Flex>
                       </Td>
                     </Tr>

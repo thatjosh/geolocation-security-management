@@ -16,6 +16,12 @@ import { IoMdMore } from "react-icons/io";
 import { IEvent } from "../../../../../common/interface/interface";
 import EventModal from "../../event/EventModal";
 import { useState } from "react";
+import { BsFillCircleFill } from "react-icons/bs";
+import {
+  capitaliseFirstChar,
+  getEventStatusColour,
+  getSeverityLevelColour,
+} from "../../../../../common/utils/helper";
 interface IProps {
   eventData: IEvent[];
   isLoaded: boolean;
@@ -29,6 +35,11 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
   } = useDisclosure();
 
   const [eventID, setEventID] = useState<number>(-1);
+
+  function showEventDetails(key: number) {
+    eventonOpen();
+    setEventID(key);
+  }
 
   return (
     <>
@@ -60,11 +71,34 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
                 <Tbody>
                   {eventData.map((event, key) => {
                     return (
-                      <Tr>
+                      <Tr
+                        onClick={(_) => showEventDetails(key)}
+                        _hover={{
+                          cursor: "pointer",
+                        }}
+                      >
                         <Td>{key + 1}</Td>
                         <Td>{event.id}</Td>
-                        <Td>{event.severity_level}</Td>
-                        <Td>{event.status}</Td>
+                        <Td>
+                          <Flex flexDir={"row"} gap={2} alignItems={"center"}>
+                            <BsFillCircleFill
+                              size={6}
+                              color={getSeverityLevelColour(
+                                event.severity_level
+                              )}
+                            />
+                            {capitaliseFirstChar(event.severity_level)}
+                          </Flex>
+                        </Td>
+                        <Td>
+                          <Flex flexDir={"row"} gap={2} alignItems={"center"}>
+                            <BsFillCircleFill
+                              size={6}
+                              color={getEventStatusColour(event.status)}
+                            />
+                            {event.status}
+                          </Flex>
+                        </Td>
                         <Td>{event.region}</Td>
                         <Td>
                           <Flex
@@ -73,13 +107,10 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
                               cursor: "pointer",
                             }}
                           >
-                            <BiShow
-                              onClick={(_) => {
-                                eventonOpen();
-                                setEventID(key);
-                              }}
+                            <BiShow onClick={(_) => showEventDetails(key)} />
+                            <IoMdMore
+                              onClick={(event) => event.stopPropagation()}
                             />
-                            <IoMdMore />
                           </Flex>
                         </Td>
                       </Tr>

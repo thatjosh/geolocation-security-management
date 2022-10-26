@@ -17,6 +17,10 @@ import {
 } from "../../../../common/interface/interface";
 import EventModal from "../event/EventModal";
 import { getDatabase, ref, update } from "firebase/database";
+import {
+  findPersonnelKey,
+  nearbyPersonnels,
+} from "../../../../common/utils/helper";
 
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -42,6 +46,13 @@ const Feed: React.FC<IProps> = ({
     onOpen: newEventonOpen,
     onClose: newEventonClose,
   } = useDisclosure();
+
+  const [nearbyPersonnel, setNearbyPersonnel] =
+    useState<IPersonnel[]>(personnelListData);
+  useEffect(() => {
+    setNearbyPersonnel(nearbyPersonnels(personnelListData, currentView));
+    console.log(currentView, nearbyPersonnel);
+  }, [currentView]);
 
   const [personnelID, setPersonnelID] = useState<number>(-1);
   const {
@@ -265,14 +276,16 @@ const Feed: React.FC<IProps> = ({
                 </Text>
                 {personnelListData && (
                   <Flex flexDir={"row"} gap={3} flexWrap={"wrap"}>
-                    {personnelListData.slice(0, 3).map((personnel, key) => (
+                    {nearbyPersonnel.slice(0, 3).map((personnel, key) => (
                       <Box
                         onClick={(_) => {
                           personnelonOpen();
-                          setPersonnelID(key);
+                          setPersonnelID(
+                            findPersonnelKey(personnel.id, personnelListData)
+                          );
                         }}
                       >
-                        <FeedProfileCard data={personnelListData[key]} />
+                        <FeedProfileCard data={nearbyPersonnel[key]} />
                       </Box>
                     ))}
                   </Flex>
