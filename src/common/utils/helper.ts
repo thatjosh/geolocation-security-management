@@ -24,7 +24,7 @@ export function getPersonnelStatusColour(status: string) {
       return "green";
     case "off duty":
       return "#4f4f4f";
-    case "stand by":
+    case "standby":
       return "orange";
     default:
       return "#4f4f4f";

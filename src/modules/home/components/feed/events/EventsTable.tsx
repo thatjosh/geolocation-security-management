@@ -96,7 +96,7 @@ const EventTable: React.FC<IProps> = ({ eventData, isLoaded }) => {
                               size={6}
                               color={getEventStatusColour(event.status)}
                             />
-                            {event.status}
+                            {capitaliseFirstChar(event.status)}
                           </Flex>
                         </Td>
                         <Td>{event.region}</Td>

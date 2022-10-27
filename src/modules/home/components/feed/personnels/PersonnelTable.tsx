@@ -17,7 +17,10 @@ import { IPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
 import ProfileModal from "../ProfileModal";
 import { BsFillCircleFill } from "react-icons/bs";
-import { getPersonnelStatusColour } from "../../../../../common/utils/helper";
+import {
+  capitaliseFirstChar,
+  getPersonnelStatusColour,
+} from "../../../../../common/utils/helper";
 
 interface IProps {
   personnelData: IPersonnel[];
@@ -93,7 +96,7 @@ const PersonnelTable: React.FC<IProps> = ({ personnelData, title }) => {
                                   personnel.status
                                 )}
                               />
-                              {personnel.status}
+                              {capitaliseFirstChar(personnel.status)}
                             </Flex>
                           </Td>
                           <Td>{personnel.region}</Td>
