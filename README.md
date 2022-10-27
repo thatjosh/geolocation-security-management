@@ -18,7 +18,8 @@ The purpose of this project is to develop a security management system with `rea
 
 1. Before cloning the repository, make sure you have `npm v6` and `node v14` installed.
 2. Run `npm i` to install the packages used in this codebase.
-3. Run `npm run dev` to run the codebase locally.
+3. add a `.env` file and insert the environment variables
+4. Run `npm run dev` to run the codebase locally.
 
 <br>
 
