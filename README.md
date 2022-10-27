@@ -6,8 +6,6 @@
 
 ## About this project
 
----
-
 The purpose of this project is to develop a security management system with `real time geolocation tracking`. The webapp allows the security management team to:
 
 1. track personnels on the ground,
@@ -18,8 +16,6 @@ The purpose of this project is to develop a security management system with `rea
 
 ## To get started
 
----
-
 1. After cloning the repository, make sure you have `npm v6` and `node v14` installed.
 2. Run `npm i` to install the packages used in this codebase.
 3. Run `npm run dev` to run the codebase locally.
@@ -27,8 +23,6 @@ The purpose of this project is to develop a security management system with `rea
 <br>
 
 ## Environment variables
-
----
 
 Google Maps API
 | https://console.cloud.google.com/google/maps-apis/credentials
@@ -54,15 +48,11 @@ Firebase Credentials | https://firebase.google.com/docs/cloud-messaging/js/recei
 
 ## Seed Data
 
----
-
 Two seed data files are available at `/src/data/` `events-seed-json.json` and `personnel-seed-json.json`.
 
 <br>
 
 ## Tech stack
-
----
 
 - React
 - Firebase
