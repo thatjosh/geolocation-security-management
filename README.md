@@ -9,7 +9,7 @@
 The purpose of this project is to develop a security management system with `real time geolocation tracking`. The webapp allows the security management team to:
 
 1. track personnels on the ground,
-2. add events to the map as soon as an incident occurs,
+2. add events to the map as soon as an incident is observed on closed-circuit television,
 3. and dispatch active personnels to mitgate crises.
 
 <br>
@@ -49,7 +49,7 @@ Firebase Credentials | https://firebase.google.com/docs/cloud-messaging/js/recei
 
 ## Seed Data
 
-Two seed data files are available at `/src/data/` : `events-seed-json.json` and `personnel-seed-json.json`.
+Two seed data files are available at the `/src/data/` directory: `events-seed-json.json` and `personnel-seed-json.json`.
 
 <br>
 
@@ -60,3 +60,35 @@ Two seed data files are available at `/src/data/` : `events-seed-json.json` and 
 - Google Maps API
 - ChakraUI
 - Vite
+
+## Structure
+
+```
+.
+└── main.tsx/
+    └── App.tsx/
+        └── HomePage.tsx/
+            └── component/
+                ├── event/
+                │   ├── EventSection.tsx
+                │   ├── EventModal.tsx
+                │   ├── EventCard.tsx
+                │   └── EventSectionSkeleton.tsx (render when event data is unavailable)
+                ├── profile/
+                │   ├── ProfileSection.tsx
+                │   ├── ProfileModal.tsx
+                │   └── ProfileSectionSkeleton.tsx (render when event data is unavailable)
+                └── feed/
+                    ├── events/
+                    │   └── EventsTable.tsx
+                    ├── map-visualiser/
+                    │   └── GMaps.tsx
+                    ├── personnels/
+                    │   ├── NearbyPersonnelModal.tsx
+                    │   └── PersonnelTable.tsx
+                    ├── Feed.tsx
+                    ├── FeedProfileCard.tsx
+                    ├── FeedSkeleton.tsx (render when feed data is unavailable)
+                    ├── InsertNewEventForm.tsx
+                    └── NewEventButton.tsx
+```

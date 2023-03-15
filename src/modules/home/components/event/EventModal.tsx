@@ -155,16 +155,10 @@ const EventModal: React.FC<IProps> = ({ isOpen, onOpen, onClose, data }) => {
                   cursor: "pointer",
                 }}
                 justifyContent={"center"}
-                onClick={
-                  () => {
-                    setShowPersonnelNotification(!personnelNotification);
-                    notificationonOpen();
-                  }
-                  //   position: "bottom",
-                  //   duration: 2000,
-                  //   render: () => <FeatureNotYetAvaialble />,
-                  // })
-                }
+                onClick={() => {
+                  setShowPersonnelNotification(!personnelNotification);
+                  notificationonOpen();
+                }}
               >
                 <Text fontSize={"12px"}>{"Notify personnel(s)"}</Text>
                 <BsFillCheckCircleFill />

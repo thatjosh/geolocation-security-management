@@ -29,16 +29,6 @@ const FeedProfileCard: React.FC<IProps> = ({ data }) => {
             src={personnel}
             boxShadow={"2xl"}
           />
-          {/* <Box
-        position={"relative"}
-        zIndex={0}
-        mt={"-150px"}
-        rounded={"md"}
-        height={"150px"}
-        bgGradient={
-          "linear-gradient(180deg, rgba(0, 0, 0, 0) 2.4%, rgba(0, 0, 0, 0.65) 100%);"
-        }
-      /> */}
           <Box position={"relative"} mt={"-72px"} px={3} width={"100%"}>
             <Flex
               gap={2}

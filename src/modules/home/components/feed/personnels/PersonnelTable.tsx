@@ -15,7 +15,7 @@ import { BiShow } from "react-icons/bi";
 import { IoMdMore } from "react-icons/io";
 import { IPersonnel } from "../../../../../common/interface/interface";
 import { useState } from "react";
-import ProfileModal from "../ProfileModal";
+import ProfileModal from "../../profile/ProfileModal";
 import { BsFillCircleFill } from "react-icons/bs";
 import {
   capitaliseFirstChar,

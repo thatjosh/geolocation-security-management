@@ -5,7 +5,6 @@ import {
   IEvent,
   IPersonnel,
 } from "../../../../../common/interface/interface";
-import EventModal from "../../event/EventModal";
 
 interface IProps {
   areaCoordinates: GMapsCoordinates;
@@ -18,9 +17,6 @@ interface IProps {
   setEventID: any;
   setPersonnelID: any;
   personnelonOpen: any;
-  // eventisOpen: any;
-  // eventonClose: any;
-  // eventID: any;
 }
 type LatLngLiteral = google.maps.LatLngLiteral;
 type DirectionsResult = google.maps.DirectionsResult;
@@ -65,6 +61,7 @@ const GMaps: React.FC<IProps> = ({
         }
       }}
     >
+      {/* Render event icons */}
       {eventListData.map((event, key) => (
         <MarkerF
           position={event.coordinate}
@@ -78,6 +75,7 @@ const GMaps: React.FC<IProps> = ({
           }}
         />
       ))}
+      {/* Render personnel icons */}
       {personnelListData &&
         personnelListData.map((personnel, key) => (
           <MarkerF

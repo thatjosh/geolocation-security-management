@@ -3,7 +3,7 @@ import { useState, useMemo, useEffect } from "react";
 import FeedProfileCard from "./FeedProfileCard";
 import { MdExpandMore, MdOutlineConstruction } from "react-icons/md";
 import InsertNewEventForm from "./InsertNewEventForm";
-import ProfileModal from "./ProfileModal";
+import ProfileModal from "../profile/ProfileModal";
 import PersonnelTable from "./personnels/PersonnelTable";
 import EventTable from "./events/EventsTable";
 import { new_feed_area } from "../../../../common/data/seed2";
@@ -18,7 +18,7 @@ import {
   findPersonnelKey,
   nearbyPersonnels,
 } from "../../../../common/utils/helper";
-import NewEventButton from "./personnels/NewEventButton";
+import NewEventButton from "./NewEventButton";
 import GMaps from "./map-visualiser/GMaps";
 import NearbyPersonnel from "./personnels/NearbyPersonnelModal";
 interface IProps {
@@ -42,13 +42,16 @@ const Feed: React.FC<IProps> = ({
     onClose: newEventonClose,
   } = useDisclosure();
 
+  // Disclosure hook to open the personnel modal
   const [nearbyPersonnel, setNearbyPersonnel] =
     useState<IPersonnel[]>(personnelListData);
+
   useEffect(() => {
     setNearbyPersonnel(nearbyPersonnels(personnelListData, currentView));
     console.log(currentView, nearbyPersonnel);
   }, [currentView]);
 
+  // Disclosure hook to open the personnel modal
   const [personnelID, setPersonnelID] = useState<number>(-1);
   const {
     isOpen: personnelisOpen,
@@ -90,33 +93,40 @@ const Feed: React.FC<IProps> = ({
 
   return (
     <>
+      {/* Conditionally render feed based on tabs clicked */}
+
+      {/* 1. Events */}
       {currentFeed && currentFeed == "Personnels" && personnelListData && (
         <PersonnelTable
           personnelData={personnelListData}
           title={"Personnels"}
         />
       )}
+
+      {/* 2. Events */}
       {currentFeed && currentFeed == "Events" && (
         <EventTable eventData={eventListData} isLoaded={isLoaded} />
       )}
+
+      {/* 3. Communication */}
       {currentFeed && currentFeed == "Communication" && (
-        <>
-          <Flex
-            gap={2}
-            flexDir={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            py={20}
-            rounded={10}
-            borderWidth={1}
-            borderColor={"#3a3a3a"}
-            color={"#f3f3f3"}
-          >
-            <MdOutlineConstruction size={50} />
-            <Text>Feature is under development</Text>
-          </Flex>
-        </>
+        <Flex
+          gap={2}
+          flexDir={"column"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          py={20}
+          rounded={10}
+          borderWidth={1}
+          borderColor={"#3a3a3a"}
+          color={"#f3f3f3"}
+        >
+          <MdOutlineConstruction size={50} />
+          <Text>Feature is under development</Text>
+        </Flex>
       )}
+
+      {/* 4. Map visualiser */}
       {currentFeed && currentFeed == "Map visualiser" && (
         <Box px={5} py={5} borderWidth={1} borderColor={"#3a3a3a"} rounded={10}>
           <Flex>

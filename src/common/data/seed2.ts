@@ -1,5 +1,3 @@
-import { IEvent, IPersonnel } from "../interface/interface";
-
 export const new_feed_area = [
   {
     name: "Bandar Sunway",
