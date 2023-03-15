@@ -61,6 +61,8 @@ Two seed data files are available at the `/src/data/` directory: `events-seed-js
 - ChakraUI
 - Vite
 
+<br>
+
 ## Structure
 
 ```
