@@ -74,7 +74,7 @@ const HomePage: React.FC = () => {
         {/* Render skeleton if personnel data is unavailable */}
         {!personnelData && <FeedSkeleton />}
         {/* Render feed data if available */}
-        {personnelData && eventData && personnelData && (
+        {personnelData && eventData && (
           <Box width={[550, 650, 800]}>
             <Feed
               isLoaded={isLoaded}

@@ -95,7 +95,7 @@ const Feed: React.FC<IProps> = ({
     <>
       {/* Conditionally render feed based on tabs clicked */}
 
-      {/* 1. Events */}
+      {/* 1. Personnel */}
       {currentFeed && currentFeed == "Personnels" && personnelListData && (
         <PersonnelTable
           personnelData={personnelListData}
