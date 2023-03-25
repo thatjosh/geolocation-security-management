@@ -79,7 +79,7 @@ Two seed data files are available at the `/src/data/` directory: `events-seed-js
                 ├── profile/
                 │   ├── ProfileSection.tsx
                 │   ├── ProfileModal.tsx
-                │   └── ProfileSectionSkeleton.tsx (render when event data is unavailable)
+                │   └── ProfileSectionSkeleton.tsx (render when profile data is unavailable)
                 └── feed/
                     ├── events/
                     │   └── EventsTable.tsx
