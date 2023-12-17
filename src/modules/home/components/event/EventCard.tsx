@@ -66,7 +66,9 @@ const EventCard: React.FC<IProps> = ({ onOpen, severity, id, region }) => {
         }
       /> */}
       <Box position={"relative"} mt={"-30px"} ml={5}>
-        <Text fontSize={"12px"}>{`${region} #${id}`}</Text>
+        <Text fontSize={"12px"} data-testid="new-events-text">
+          {`${region} #${id}`}{" "}
+        </Text>
       </Box>
     </Box>
   );
